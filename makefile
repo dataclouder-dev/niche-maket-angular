@@ -1,6 +1,6 @@
 # Variables for deployment
 PROJECT_ID ?= notion-neat-dev#Firebase/Google project ID
-PROJECT_NAME ?= notion-neat#Name of the project package format, use - instead of spaces
+PROJECT_NAME ?= notion-neat-dev#Name of the project package format, use - instead of spaces
 APP_ID ?= dev.dataclouder.notion # User for mobile apps.
 DISPLAY_NAME ?= $(PROJECT_NAME)
 
@@ -51,9 +51,9 @@ create-firebase-app:
 
 deploy:
 	npm run build
-	firebase deploy --only hosting:$(PROJECT_ID)
+	firebase deploy --project $(PROJECT_ID) --only hosting:$(PROJECT_ID)
 
 deploy-release:
 	npm run prebuild
 	npm run build:prod
-	firebase deploy --only hosting:$(PROJECT_ID)
+	firebase deploy --project $(PROJECT_ID) --only hosting:$(PROJECT_ID)

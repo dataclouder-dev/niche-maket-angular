@@ -4,7 +4,7 @@
     "appId": "dev.dataclouder.notion ",
     "appIdDev": "dev.dataclouder.notion .dev"
   },
-  "version": "0.0.8",
+  "version": "0.0.3",
   "author": "Ionic Framework",
   "homepage": "dataclouder.dev",
   "scripts": {
