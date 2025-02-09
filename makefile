@@ -1,7 +1,7 @@
 # Variables for deployment
-PROJECT_ID ?= dataclouder-dev#Firebase/Google project ID
-PROJECT_NAME ?= dataclouder-template#Name of the project package format, use - instead of spaces
-APP_ID ?= dev.dataclouder.template # User for mobile apps.
+PROJECT_ID ?= notion-neat-dev#Firebase/Google project ID
+PROJECT_NAME ?= notion-neat#Name of the project package format, use - instead of spaces
+APP_ID ?= dev.dataclouder.notion # User for mobile apps.
 DISPLAY_NAME ?= $(PROJECT_NAME)
 
 help:

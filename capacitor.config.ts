@@ -1,8 +1,8 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'dev.dataclouder.template',
-  appName: 'dataclouder-template',
+  appId: 'dev.dataclouder.notion ',
+  appName: 'notion-neat',
   webDir: 'www',
 };
 

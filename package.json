@@ -1,8 +1,8 @@
 {
-  "name": "dataclouder-template",
+  "name": "notion-neat",
   "config": {
-    "appId": "dev.dataclouder.template",
-    "appIdDev": "dev.dataclouder.template.dev"
+    "appId": "dev.dataclouder.notion ",
+    "appIdDev": "dev.dataclouder.notion .dev"
   },
   "version": "0.0.8",
   "author": "Ionic Framework",
