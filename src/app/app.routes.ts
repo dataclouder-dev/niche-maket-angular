@@ -102,6 +102,24 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/home/home.component').then(m => m.HomeComponent),
       },
       {
+        path: 'tasks',
+        loadComponent: () => import('./pages/tasks/tasks.page').then(m => m.TasksPage),
+        children: [
+          {
+            path: '',
+            loadComponent: () => import('./pages/tasks/task-list/task-list.component').then(m => m.TaskListComponent),
+          },
+          {
+            path: 'edit',
+            loadComponent: () => import('./pages/tasks/task-edit/task-edit.component').then(m => m.TaskEditComponent),
+          },
+          {
+            path: 'edit/:id',
+            loadComponent: () => import('./pages/tasks/task-edit/task-edit.component').then(m => m.TaskEditComponent),
+          },
+        ],
+      },
+      {
         path: 'explore',
         loadComponent: () => import('./pages/explore/explore.page').then(m => m.ExplorePage),
         children: [

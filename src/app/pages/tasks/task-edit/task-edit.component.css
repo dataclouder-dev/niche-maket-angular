@@ -1,0 +1,15 @@
+:host {
+  display: block;
+  padding: 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.field {
+  margin-bottom: 1rem;
+}
+
+label {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}

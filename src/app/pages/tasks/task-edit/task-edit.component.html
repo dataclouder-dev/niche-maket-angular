@@ -1,0 +1,32 @@
+<p-card header="Edit Task">
+  <form [formGroup]="taskForm" (ngSubmit)="onSubmit()" class="flex flex-column gap-3">
+    <div class="field">
+      <label for="name" class="block">Title</label>
+      <input id="name" type="text" pInputText formControlName="name" class="w-full" />
+    </div>
+
+    <div class="field">
+      <label for="idAgentCard" class="block">Agent Card Id</label>
+      <input id="idAgentCard" type="text" pInputText formControlName="idAgentCard" class="w-full" />
+    </div>
+
+    <div class="field">
+      <label for="idNotionDB" class="block">Notion DB Id</label>
+      <input id="idNotionDB" type="text" pInputText formControlName="idNotionDB" class="w-full" />
+    </div>
+
+    <div class="field">
+      <label for="description" class="block">Description</label>
+      <textarea class="textmin" rows="1" pTextarea [autoResize]="true" id="description" formControlName="description"></textarea>
+    </div>
+
+    <div class="field">
+      <label for="status" class="block">Status</label>
+      <p-dropdown id="status" [options]="statuses" formControlName="status" placeholder="Select Status" class="w-full"> </p-dropdown>
+    </div>
+
+    <div class="flex justify-content-end">
+      <p-button type="submit" label="Save Task" [disabled]="!taskForm.valid"> </p-button>
+    </div>
+  </form>
+</p-card>

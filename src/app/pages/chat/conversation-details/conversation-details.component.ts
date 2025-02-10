@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { DcConversationCardDetailsComponent, IConversationCard } from '@dataclouder/conversation-system';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-conversation-details',
   templateUrl: './conversation-details.component.html',
   styleUrls: ['./conversation-details.component.scss'],
   standalone: true,
-  imports: [CommonModule, DcConversationCardDetailsComponent],
+  imports: [CommonModule, DcConversationCardDetailsComponent, ButtonModule],
 })
 export class ConversationDetailsPage implements OnInit {
   conversationId: any;
@@ -43,5 +44,11 @@ export class ConversationDetailsPage implements OnInit {
         conversation: card,
       },
     });
+  }
+
+  public startTask() {
+    console.log('startTask', this.conversationId);
+    alert('startTask');
+    debugger;
   }
 }

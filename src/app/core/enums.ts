@@ -42,6 +42,11 @@ export const Endpoints = {
     Whisper: 'api/conversation/whisper',
   },
 
+  Tasks: {
+    List: 'api/agent-tasks',
+    Save: 'api/agent-tasks', // POST
+  },
+
   Lessons: {
     Lesson: 'api/lessonv2/lesson',
     QueryLessons: 'api/lessonv2/query',
