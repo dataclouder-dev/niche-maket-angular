@@ -49,6 +49,5 @@ export class ConversationDetailsPage implements OnInit {
   public startTask() {
     console.log('startTask', this.conversationId);
     alert('startTask');
-    debugger;
   }
 }

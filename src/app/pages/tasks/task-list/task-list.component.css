@@ -1,3 +1,9 @@
 :host {
   display: block;
 }
+
+.justify-content-end {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}

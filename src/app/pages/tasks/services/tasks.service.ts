@@ -14,7 +14,19 @@ export class TasksService {
     return this.httpService.getDataFromService(Endpoints.Tasks.List);
   }
 
+  public getTaskById(id: string) {
+    return this.httpService.getDataFromService(`${Endpoints.Tasks.Task}/${id}`);
+  }
+
   public saveTask(task: AgentTask) {
     return this.httpService.postDataToService(Endpoints.Tasks.Save, task);
+  }
+
+  public deleteTask(id: string) {
+    return this.httpService.deleteDataFromService(`${Endpoints.Tasks.Task}/${id}`);
+  }
+
+  public executeTask(id: string) {
+    return this.httpService.getDataFromService(`${Endpoints.Tasks.Execute}/${id}`);
   }
 }

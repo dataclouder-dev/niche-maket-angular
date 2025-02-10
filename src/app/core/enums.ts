@@ -43,8 +43,15 @@ export const Endpoints = {
   },
 
   Tasks: {
-    List: 'api/agent-tasks',
+    Task: 'api/agent-tasks', // GET
+    List: 'api/agent-tasks', // GET
     Save: 'api/agent-tasks', // POST
+    Execute: 'api/agent-tasks/execute', // GET /:ID
+  },
+  Notion: {
+    ListDBs: 'api/notion/list-databases',
+    ListPages: 'api/notion/list-pages',
+    Save: 'api/notion/save', // POST
   },
 
   Lessons: {
