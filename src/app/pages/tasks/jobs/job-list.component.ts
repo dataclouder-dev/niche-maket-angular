@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { JobsService } from '../services/jobs.service';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
+import { CardModule } from 'primeng/card';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, ButtonModule, DialogModule],
+  imports: [CommonModule, ButtonModule, DialogModule, CardModule],
   selector: 'app-job-list',
   templateUrl: './job-list.component.html',
   styleUrls: ['./job-list.component.css'],
@@ -17,7 +18,7 @@ export class JobListComponent implements OnInit {
   public displayJobDetails = false;
   jobs: any[] = []; // Replace 'any' with your job interface/type
   public selectedJob: any;
-  constructor(private route: ActivatedRoute, private jobsService: JobsService) {}
+  constructor(private route: ActivatedRoute, private jobsService: JobsService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     // Initialize component data
@@ -28,7 +29,6 @@ export class JobListComponent implements OnInit {
     if (this.id) {
       const jobs = await this.jobsService.getJobsByTaskId(this.id);
       this.jobs = jobs;
-      debugger;
     } else {
       alert('You need your task id to load jobs');
     }
@@ -44,14 +44,14 @@ export class JobListComponent implements OnInit {
     // TODO: Implement edit job logic
   }
 
-  deleteJob(job: any): void {
-    // TODO: Implement delete job logic
+  async deleteJob(job: any): Promise<void> {
+    await this.jobsService.deleteJob(job._id);
+    this.jobs = this.jobs.filter(j => j._id !== job._id);
+    this.cdr.detectChanges();
   }
 
   viewJobDetails(job: any): void {
     this.selectedJob = job;
     this.displayJobDetails = true;
-    debugger;
-    // TODO: Implement view job details logic
   }
 }

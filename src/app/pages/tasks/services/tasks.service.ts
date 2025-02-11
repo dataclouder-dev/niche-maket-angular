@@ -14,7 +14,7 @@ export class TasksService {
     return this.httpService.getDataFromService(Endpoints.Tasks.List);
   }
 
-  public getTaskById(id: string) {
+  public getTaskById(id: string): Promise<IAgentTask> {
     return this.httpService.getDataFromService(`${Endpoints.Tasks.Task}/${id}`);
   }
 

@@ -15,6 +15,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AutoCompleteCompleteEvent, AutoCompleteModule } from 'primeng/autocomplete';
 import { ToastAlertService } from 'src/app/services/toast.service';
 import { ChipModule } from 'primeng/chip';
+import { TooltipModule } from 'primeng/tooltip';
+
+interface AgentCardOption {
+  label: string;
+  value: string;
+  assets: Record<string, any>;
+}
 
 @Component({
   selector: 'app-task-edit',
@@ -29,22 +36,36 @@ import { ChipModule } from 'primeng/chip';
     TextareaModule,
     AutoCompleteModule,
     ChipModule,
+    TooltipModule,
   ],
   templateUrl: './task-edit.component.html',
   styleUrl: './task-edit.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TaskEditComponent implements OnInit {
-  sourceSuggestions: ISourceTask[] = [];
-  selectedSource: string = '';
-
-  value: any;
-
+  public task: IAgentTask | null = null;
+  public sourceSuggestions: ISourceTask[] = [];
+  public selectedSource: string = '';
+  public selectedAssets: any = null;
   public id = this.route.snapshot.params['id'];
-  taskForm!: FormGroup;
-  taskTypes = AgentTaskOptions;
 
-  statuses = AgentTaskStatusOptions;
+  public taskForm = this.fb.group({
+    _id: [''],
+    agentCard: this.fb.group({
+      id: [''],
+      assets: [{}],
+    }),
+    idNotionDB: [''],
+    name: ['', Validators.required],
+    description: [''],
+    status: [AgentTaskStatus.ACTIVE],
+    taskType: [AgentTaskType.POST_NOTION],
+    sources: this.fb.control<any[]>([]),
+  });
+
+  public taskTypes = AgentTaskOptions;
+
+  public statuses = AgentTaskStatusOptions;
   private sourcesOptions: ISourceTask[] = [];
 
   constructor(
@@ -58,9 +79,8 @@ export class TaskEditComponent implements OnInit {
     private toastService: ToastAlertService
   ) {}
 
-  ngOnInit() {
-    this.initForm();
-    this.getTaskIfIdParam();
+  async ngOnInit() {
+    await this.getTaskIfIdParam();
     this.getAgentCards();
     this.getNotionDBs();
     // this.getSources();
@@ -68,8 +88,8 @@ export class TaskEditComponent implements OnInit {
 
   private async getTaskIfIdParam() {
     if (this.id) {
-      const task = await this.tasksService.getTaskById(this.id);
-      this.taskForm.patchValue(task);
+      this.task = await this.tasksService.getTaskById(this.id);
+      this.taskForm.patchValue(this.task as any);
       this.cdr.detectChanges();
     }
   }
@@ -77,27 +97,14 @@ export class TaskEditComponent implements OnInit {
   private async getSources() {
     const sources = await this.notionService.getPagesAvailable();
     this.sourcesOptions = sources.pages.map((page: any) => ({ id: page.id, name: page.title, type: 'notion' }));
-    debugger;
+
     this.toastService.success({ title: 'Fuentes encontradas', subtitle: 'Intenta de nuevo' });
     this.cdr.detectChanges();
   }
 
-  private initForm() {
-    this.taskForm = this.fb.group({
-      _id: [''],
-      idAgentCard: [''],
-      idNotionDB: [''],
-      name: ['', Validators.required],
-      description: [''],
-      status: [AgentTaskStatus.ACTIVE],
-      taskType: [AgentTaskType.POST_NOTION],
-      sources: [[]],
-    });
-  }
-
   async onSubmit() {
     if (this.taskForm.valid) {
-      const taskData: IAgentTask = this.taskForm.value;
+      const taskData: IAgentTask = this.taskForm.value as any;
       console.log('Task submitted:', taskData);
       const task = await this.tasksService.saveTask(taskData);
       if (!this.id) {
@@ -108,12 +115,19 @@ export class TaskEditComponent implements OnInit {
     }
   }
 
-  public agentOptions: any[] = [];
+  public agentOptions: AgentCardOption[] = [];
 
   private async getAgentCards() {
     const agentCards = await this.agentCardService.findAgentCards({});
-    this.agentOptions = agentCards.rows.map((card: any) => ({ label: card.title, value: card.id }));
-    console.log('Agent cards:', this.agentOptions);
+
+    this.agentOptions = agentCards.rows.map((card: any) => ({
+      label: card.title || 'Untitled Card',
+      value: card.id,
+      assets: card.assets,
+    }));
+
+    this.showAgentImage(this.task?.agentCard?.id as string);
+
     this.cdr.detectChanges();
   }
 
@@ -131,24 +145,25 @@ export class TaskEditComponent implements OnInit {
   }
 
   addSource() {
+    // fix this to filter selectedSource
     if (this.selectedSource) {
-      debugger;
       const currentSources = this.taskForm.get('sources')?.value || [];
-      if (!currentSources.includes(this.selectedSource)) {
-        this.taskForm.patchValue({
-          sources: [...currentSources, this.selectedSource],
-        });
-        this.selectedSource = '';
-        this.cdr.detectChanges();
-      }
+      // if (!currentSources.includes(this.selectedSource)) {
+      //   this.taskForm.patchValue({
+      //     sources: [...currentSources, this.selectedSource],
+      //   });
+      //   this.selectedSource = '';
+      //   this.cdr.detectChanges();
+      // }
     }
   }
 
   removeSource(sourceToRemove: string) {
     const currentSources = this.taskForm.get('sources')?.value || [];
-    this.taskForm.patchValue({
-      sources: currentSources.filter((source: string) => source !== sourceToRemove),
-    });
+    // tODO fix this
+    // this.taskForm.patchValue({
+    //   sources: currentSources.filter((source: string) => source !== sourceToRemove),
+    // });
     this.cdr.detectChanges();
   }
 
@@ -163,6 +178,21 @@ export class TaskEditComponent implements OnInit {
 
   selectSource(event: any) {
     this.selectedSource = event.value;
-    debugger;
+    const currentSources = this.taskForm.controls.sources.value ?? [];
+
+    this.taskForm.patchValue({
+      sources: [...currentSources, this.selectedSource],
+    });
+  }
+
+  onAgentCardChange(event: any) {
+    this.showAgentImage(event.value);
+  }
+
+  showAgentImage(id: string) {
+    const agentCard = this.agentOptions.find(option => option.value === id);
+    console.log('Agent card:', agentCard);
+    this.selectedAssets = agentCard?.assets;
+    this.cdr.detectChanges();
   }
 }

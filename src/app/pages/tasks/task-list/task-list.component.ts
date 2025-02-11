@@ -4,19 +4,36 @@ import { DCFilterBarComponent } from '@dataclouder/core-components';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
-
+import { ToastAlertService } from 'src/app/services/toast.service';
+import { DialogModule } from 'primeng/dialog';
+import { DialogService } from 'primeng/dynamicdialog';
+import { ChatMessage, DCConversationPromptBuilderService } from '@dataclouder/conversation-system';
+import { AgentCardService } from 'src/app/services/conversation-cards-ai-service';
 @Component({
   selector: 'app-task-list',
   standalone: true,
-  imports: [DCFilterBarComponent, CardModule, ButtonModule],
+  imports: [DCFilterBarComponent, CardModule, ButtonModule, DialogModule],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TaskListComponent implements OnInit {
-  constructor(private tasksService: TasksService, private router: Router, private route: ActivatedRoute, private cdr: ChangeDetectorRef) {}
+  constructor(
+    private tasksService: TasksService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef,
+    private toastService: ToastAlertService,
+    private promptBuilderService: DCConversationPromptBuilderService,
+    private agentCardService: AgentCardService
+  ) {}
 
   public tasks: any[] = [];
+  loadingTasks: { [key: string]: boolean } = {};
+
+  public showTaksDetails = false;
+  public selectedTask: any;
+
   ngOnInit() {
     this.getTasks();
   }
@@ -52,12 +69,30 @@ export class TaskListComponent implements OnInit {
     }
   }
 
-  public executeTask(task: any) {
-    console.log('executeTask', task);
-    this.tasksService.executeTask(task._id);
+  public async executeTask(task: any) {
+    this.loadingTasks[task._id] = true;
+    try {
+      this.toastService.info({ title: 'Ejecutando tarea...', subtitle: 'Puede tardar hasta 1 minuto, sé paciente' });
+      await this.tasksService.executeTask(task._id);
+      this.toastService.success({ title: 'Tarea ejecutada correctamente', subtitle: 'Los resultados se han guardado' });
+    } finally {
+      this.loadingTasks[task._id] = false;
+      this.cdr.detectChanges();
+    }
   }
 
   public viewResults(task: any) {
     this.router.navigate(['./jobs', task._id], { relativeTo: this.route });
+  }
+
+  public promptMessages: ChatMessage[] = [];
+  public async viewTask(task: any) {
+    this.selectedTask = task;
+
+    const agentCard = await this.agentCardService.findConversationCardByID(task.agentCard.id);
+    console.log('agentCard', agentCard);
+    this.promptMessages = this.promptBuilderService.buildPrompt(agentCard);
+    this.showTaksDetails = true;
+    this.cdr.detectChanges();
   }
 }

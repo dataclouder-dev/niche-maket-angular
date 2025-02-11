@@ -7,3 +7,11 @@
   justify-content: flex-end;
   gap: 10px;
 }
+
+.agent-card-image {
+  width: 100px;
+  height: 140px;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 15px;
+}

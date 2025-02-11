@@ -4,6 +4,14 @@
   max-width: 800px;
   margin: 0 auto;
 }
+
+.agent-card-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 15px;
+}
 .w-full {
   width: 100%;
 }

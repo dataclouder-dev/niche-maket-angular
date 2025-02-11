@@ -7,20 +7,26 @@
   <div class="jobs-grid">
     <div *ngIf="jobs.length === 0" class="no-jobs">No jobs found. Click 'Add New Job' to create one.</div>
 
-    <div *ngFor="let job of jobs" class="job-card">
-      <div class="job-header">
-        <h3>{{ job.title }}</h3>
-        <div class="job-actions">
-          <button class="edit-button" (click)="editJob(job)">Edit</button>
-          <p-button label="Ver Detalles" (onClick)="viewJobDetails(job)" />
-          <button class="delete-button" (click)="deleteJob(job)">Delete</button>
+    @for (job of jobs; track job.idAgentCard) {
+    <p-card>
+      <ng-template #header>
+        <img height="30px" alt="Card" class="w-full" [src]="job.agentCard?.assets?.image?.url" />
+      </ng-template>
+      <ng-template #title> ID: {{ job.id }} </ng-template>
+      <ng-template #subtitle> Id: {{ job.task.id }} - Nombre: {{ job.task.name }} - Agente: {{ job.agentCard.name }} </ng-template>
+      <p>
+        {{ job.response.content }}
+      </p>
+      <ng-template #footer>
+        <div class="flex gap-4 mt-1">
+          <div class="job-actions">
+            <p-button label="Ver Detalles" (onClick)="viewJobDetails(job)" />
+            <p-button label="Eliminar" severity="danger" (onClick)="deleteJob(job)" />
+          </div>
         </div>
-      </div>
-      <div class="job-details">
-        <!-- <p>{{ job.description }}</p> -->
-        <!-- Add more job details as needed -->
-      </div>
-    </div>
+      </ng-template>
+    </p-card>
+    }
   </div>
 </div>
 

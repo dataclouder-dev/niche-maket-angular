@@ -1,13 +1,17 @@
+import { IAgentCard } from '@dataclouder/conversation-system';
+
 export interface ISourceTask {
   id: string;
   name: string;
   type: string;
 }
 
+export type IAgentCardMinimal = Pick<IAgentCard, 'id' | 'assets'>;
+
 export interface IAgentTask {
   _id?: string;
   id: string;
-  idAgentCard: string;
+  agentCard: Partial<IAgentCard>;
   name: string;
   description: string;
   status: string;
