@@ -48,6 +48,13 @@ export const Endpoints = {
     Save: 'api/agent-tasks', // POST
     Execute: 'api/agent-tasks/execute', // GET /:ID
   },
+  Jobs: {
+    ByTask: 'api/agent-jobs/task', // GET /:ID
+    Job: 'api/agent-jobs', // GET
+    List: 'api/agent-jobs', // GET
+    Save: 'api/agent-jobs', // POST
+    Execute: 'api/agent-jobs/execute', // GET /:ID
+  },
   Notion: {
     ListDBs: 'api/notion/list-databases',
     ListPages: 'api/notion/list-pages',

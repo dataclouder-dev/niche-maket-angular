@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { UserDataExchange, UserDataExchangeAbstractService } from '@dataclouder/conversation-system';
 import { Endpoints } from 'src/app/core/enums';
 import { HttpService } from 'src/app/services/http.service';
-import { AgentTask } from '../models/tasks-models';
+import { IAgentTask } from '../models/tasks-models';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +18,7 @@ export class TasksService {
     return this.httpService.getDataFromService(`${Endpoints.Tasks.Task}/${id}`);
   }
 
-  public saveTask(task: AgentTask) {
+  public saveTask(task: IAgentTask) {
     return this.httpService.postDataToService(Endpoints.Tasks.Save, task);
   }
 

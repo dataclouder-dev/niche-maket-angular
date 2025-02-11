@@ -56,4 +56,8 @@ export class TaskListComponent implements OnInit {
     console.log('executeTask', task);
     this.tasksService.executeTask(task._id);
   }
+
+  public viewResults(task: any) {
+    this.router.navigate(['./jobs', task._id], { relativeTo: this.route });
+  }
 }

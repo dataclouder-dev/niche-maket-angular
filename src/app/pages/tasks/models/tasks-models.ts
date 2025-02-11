@@ -1,10 +1,19 @@
-export interface AgentTask {
+export interface ISourceTask {
+  id: string;
+  name: string;
+  type: string;
+}
+
+export interface IAgentTask {
+  _id?: string;
   id: string;
   idAgentCard: string;
   name: string;
   description: string;
   status: string;
   idNotionDB: string;
+  taskType: AgentTaskType;
+  sources: ISourceTask[];
 }
 
 export enum AgentTaskStatus {
@@ -21,3 +30,12 @@ export enum AgentTaskType {
 }
 
 export const AgentTaskOptions = [{ label: 'Publicar en Notion', value: AgentTaskType.POST_NOTION }];
+
+export interface IAgentJob {
+  _id?: string;
+  id?: string;
+  idTask: string;
+  idAgentCard: string;
+  messages: any[];
+  response: any;
+}

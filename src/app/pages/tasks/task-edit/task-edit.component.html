@@ -50,19 +50,33 @@
           placeholder="Enter task description"></textarea>
       </div>
 
-      <div class="form-field">
-        <label for="sources" class="block">Sources</label>
+      <div class="field">
+        <label for="sources">Sources</label>
+        <div class="p-inputgroup">
+          <p-autoComplete
+            lazy="true"
+            [suggestions]="sourceSuggestions"
+            optionLabel="name"
+            optionValue="id"
+            (completeMethod)="search($event)"
+            [dropdown]="true"
+            placeholder="Select a source"
+            (onSelect)="selectSource($event)">
+          </p-autoComplete>
+          <button pButton type="button" icon="pi pi-plus" (click)="addSource()" [disabled]="!selectedSource"></button>
+        </div>
         <br />
-        <p-autoComplete
-          id="sources"
-          [suggestions]="sourceSuggestions"
-          optionLabel="label"
-          optionValue="value"
-          formControlName="sources"
-          placeholder="Select Sources"
-          class="w-full"
-          [dropdown]="true"
-          (completeMethod)="search($event)"></p-autoComplete>
+
+        <!-- Display selected sources -->
+        <div class="selected-sources mt-2">
+          <p-chip
+            *ngFor="let source of taskForm.get('sources')?.value"
+            [label]="source.name"
+            [removable]="true"
+            (onRemove)="removeSource(source)"
+            class="mr-2 mb-2">
+          </p-chip>
+        </div>
       </div>
 
       <div class="form-field">

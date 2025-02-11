@@ -1,0 +1,40 @@
+<div class="job-list-container">
+  <div class="header">
+    <h2>Jobs List</h2>
+    <button class="add-button" (click)="addJob()">Add New Job</button>
+  </div>
+
+  <div class="jobs-grid">
+    <div *ngIf="jobs.length === 0" class="no-jobs">No jobs found. Click 'Add New Job' to create one.</div>
+
+    <div *ngFor="let job of jobs" class="job-card">
+      <div class="job-header">
+        <h3>{{ job.title }}</h3>
+        <div class="job-actions">
+          <button class="edit-button" (click)="editJob(job)">Edit</button>
+          <p-button label="Ver Detalles" (onClick)="viewJobDetails(job)" />
+          <button class="delete-button" (click)="deleteJob(job)">Delete</button>
+        </div>
+      </div>
+      <div class="job-details">
+        <!-- <p>{{ job.description }}</p> -->
+        <!-- Add more job details as needed -->
+      </div>
+    </div>
+  </div>
+</div>
+
+@if (displayJobDetails) {
+<p-dialog [(visible)]="displayJobDetails" [modal]="true" [draggable]="false" [resizable]="false">
+  <div class="job-details">
+    <p>Messages</p>
+    @for (message of selectedJob.messages; track message.id) {
+    <p>{{ message.content }}</p>
+    }
+
+    <p>Response</p>
+    <p>{{ selectedJob.response.content }}</p>
+    <!-- Add more job details as needed -->
+  </div>
+</p-dialog>
+}

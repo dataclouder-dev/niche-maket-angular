@@ -110,6 +110,14 @@ export const routes: Routes = [
             loadComponent: () => import('./pages/tasks/task-list/task-list.component').then(m => m.TaskListComponent),
           },
           {
+            path: 'jobs',
+            loadComponent: () => import('./pages/tasks/jobs/job-list.component').then(m => m.JobListComponent),
+          },
+          {
+            path: 'jobs/:id',
+            loadComponent: () => import('./pages/tasks/jobs/job-list.component').then(m => m.JobListComponent),
+          },
+          {
             path: 'edit',
             loadComponent: () => import('./pages/tasks/task-edit/task-edit.component').then(m => m.TaskEditComponent),
           },

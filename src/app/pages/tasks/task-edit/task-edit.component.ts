@@ -6,7 +6,7 @@ import { InputTextModule } from 'primeng/inputtext';
 // import { InputTextareaModule } from 'primeng/inputtextarea';
 import { CardModule } from 'primeng/card';
 import { DropdownModule } from 'primeng/dropdown';
-import { AgentTask, AgentTaskOptions, AgentTaskStatus, AgentTaskStatusOptions, AgentTaskType } from '../models/tasks-models';
+import { IAgentTask, AgentTaskOptions, AgentTaskStatus, AgentTaskStatusOptions, AgentTaskType, ISourceTask } from '../models/tasks-models';
 import { TextareaModule } from 'primeng/textarea';
 import { TasksService } from '../services/tasks.service';
 import { AgentCardService } from 'src/app/services/conversation-cards-ai-service';
@@ -14,35 +14,38 @@ import { NotionService } from '../services/notion.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AutoCompleteCompleteEvent, AutoCompleteModule } from 'primeng/autocomplete';
 import { ToastAlertService } from 'src/app/services/toast.service';
+import { ChipModule } from 'primeng/chip';
 
 @Component({
   selector: 'app-task-edit',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ButtonModule, InputTextModule, CardModule, DropdownModule, TextareaModule, AutoCompleteModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    ButtonModule,
+    InputTextModule,
+    CardModule,
+    DropdownModule,
+    TextareaModule,
+    AutoCompleteModule,
+    ChipModule,
+  ],
   templateUrl: './task-edit.component.html',
   styleUrl: './task-edit.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TaskEditComponent implements OnInit {
-  sourceSuggestions: any[] = [];
+  sourceSuggestions: ISourceTask[] = [];
+  selectedSource: string = '';
 
   value: any;
 
-  search(event: AutoCompleteCompleteEvent) {
-    if (this.sourcesOptions.length === 0) {
-      this.toastService.info({ title: 'Buscando', subtitle: 'Espera buscando fuentes...' });
-      this.getSources();
-    }
-
-    this.sourceSuggestions = this.sourcesOptions.filter(item => item.label.toLowerCase().includes(event.query.toLowerCase()));
-  }
-  // ---
   public id = this.route.snapshot.params['id'];
   taskForm!: FormGroup;
   taskTypes = AgentTaskOptions;
 
   statuses = AgentTaskStatusOptions;
-  private sourcesOptions: any[] = [];
+  private sourcesOptions: ISourceTask[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -59,7 +62,7 @@ export class TaskEditComponent implements OnInit {
     this.initForm();
     this.getTaskIfIdParam();
     this.getAgentCards();
-    // this.getNotionDBs();
+    this.getNotionDBs();
     // this.getSources();
   }
 
@@ -73,7 +76,8 @@ export class TaskEditComponent implements OnInit {
 
   private async getSources() {
     const sources = await this.notionService.getPagesAvailable();
-    this.sourcesOptions = sources.pages.map((page: any) => ({ label: page.title, value: page.id }));
+    this.sourcesOptions = sources.pages.map((page: any) => ({ id: page.id, name: page.title, type: 'notion' }));
+    debugger;
     this.toastService.success({ title: 'Fuentes encontradas', subtitle: 'Intenta de nuevo' });
     this.cdr.detectChanges();
   }
@@ -93,10 +97,14 @@ export class TaskEditComponent implements OnInit {
 
   async onSubmit() {
     if (this.taskForm.valid) {
-      const taskData: AgentTask = this.taskForm.value;
+      const taskData: IAgentTask = this.taskForm.value;
       console.log('Task submitted:', taskData);
       const task = await this.tasksService.saveTask(taskData);
-      this.router.navigate([task._id], { relativeTo: this.route });
+      if (!this.id) {
+        this.router.navigate([task._id], { relativeTo: this.route });
+      } else {
+        this.toastService.success({ title: 'Tarea actualizada', subtitle: 'Tarea actualizada correctamente' });
+      }
     }
   }
 
@@ -120,5 +128,41 @@ export class TaskEditComponent implements OnInit {
     // this.notionDBOptions = notionDBs.map((db: any) => ({ label: db.name, value: db.id }));
     // console.log('Notion DBs:', this.notionDBOptions);
     this.cdr.detectChanges();
+  }
+
+  addSource() {
+    if (this.selectedSource) {
+      debugger;
+      const currentSources = this.taskForm.get('sources')?.value || [];
+      if (!currentSources.includes(this.selectedSource)) {
+        this.taskForm.patchValue({
+          sources: [...currentSources, this.selectedSource],
+        });
+        this.selectedSource = '';
+        this.cdr.detectChanges();
+      }
+    }
+  }
+
+  removeSource(sourceToRemove: string) {
+    const currentSources = this.taskForm.get('sources')?.value || [];
+    this.taskForm.patchValue({
+      sources: currentSources.filter((source: string) => source !== sourceToRemove),
+    });
+    this.cdr.detectChanges();
+  }
+
+  search(event: AutoCompleteCompleteEvent) {
+    if (this.sourcesOptions.length === 0) {
+      this.toastService.info({ title: 'Buscando', subtitle: 'Espera buscando fuentes...' });
+      this.getSources();
+    }
+
+    this.sourceSuggestions = this.sourcesOptions.filter(item => item.name.toLowerCase().includes(event.query.toLowerCase()));
+  }
+
+  selectSource(event: any) {
+    this.selectedSource = event.value;
+    debugger;
   }
 }

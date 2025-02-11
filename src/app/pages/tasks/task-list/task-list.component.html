@@ -8,10 +8,11 @@
 
       <ng-template #footer>
         <div class="flex gap-4 mt-1 justify-content-end">
-          <p-button severity="info" label="Ejecutar" class="w-full" styleClass="w-full" (onClick)="executeTask(task)" />
-          <p-button severity="danger" label="Eliminar" class="w-full" styleClass="w-full" (onClick)="deleteTask(task)" />
+          <p-button label="Ejecutar" severity="info" (onClick)="executeTask(task)" />
+          <p-button label="Eliminar" severity="danger" (onClick)="deleteTask(task)" />
+          <p-button label="Ver Resultados" severity="secondary" (onClick)="viewResults(task)" />
 
-          <p-button label="Editar" class="w-full" styleClass="w-full" (onClick)="editTask(task)" />
+          <p-button label="Editar" (onClick)="editTask(task)" />
         </div>
       </ng-template>
     </p-card>
