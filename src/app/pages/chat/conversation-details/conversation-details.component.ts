@@ -3,14 +3,14 @@ import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { ButtonModule } from 'primeng/button';
-import { DcConversationCardDetailsComponent, IAgentCard } from '@dataclouder/conversation-system';
+import { IAgentCard, DcAgentCardDetailsComponent } from '@dataclouder/conversation-system';
 
 @Component({
   selector: 'app-conversation-details',
   templateUrl: './conversation-details.component.html',
   styleUrls: ['./conversation-details.component.scss'],
   standalone: true,
-  imports: [CommonModule, DcConversationCardDetailsComponent, ButtonModule],
+  imports: [CommonModule, DcAgentCardDetailsComponent, ButtonModule],
 })
 export class ConversationDetailsPage implements OnInit {
   conversationId: any;

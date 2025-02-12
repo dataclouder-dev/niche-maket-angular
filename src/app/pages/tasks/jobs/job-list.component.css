@@ -2,6 +2,14 @@
   padding: 20px;
 }
 
+.agent-card-image {
+  width: 90px;
+  height: 120px;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 15px;
+}
+
 .header {
   display: flex;
   justify-content: space-between;

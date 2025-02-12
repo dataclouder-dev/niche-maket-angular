@@ -10,13 +10,24 @@
     @for (job of jobs; track job.idAgentCard) {
     <p-card>
       <ng-template #header>
-        <img height="30px" alt="Card" class="w-full" [src]="job.agentCard?.assets?.image?.url" />
+        <div style="display: flex">
+          <img class="agent-card-image" alt="Card" [src]="job.agentCard?.assets?.image?.url" />
+          <h4>{{ job.task.name }}</h4>
+        </div>
       </ng-template>
-      <ng-template #title> ID: {{ job.id }} </ng-template>
-      <ng-template #subtitle> Id: {{ job.task.id }} - Nombre: {{ job.task.name }} - Agente: {{ job.agentCard.name }} </ng-template>
-      <p>
-        {{ job.response.content }}
-      </p>
+      <!-- <ng-template #title> {{ job.task.name }}</ng-template> -->
+      <ng-template #subtitle>
+        Agente: {{ job.agentCard.name }} Fecha: {{ job.createdAt | date : 'dd/MM/yyyy HH:mm' }}
+        <br />
+
+        Id Task: {{ job.task.id }} <br />
+        ID Job: {{ job.id }}
+        <br />
+        Fuentes: {{ job.sources.length }} Instrucciones: {{ job.messages.length }}
+
+        <br />
+      </ng-template>
+      <p>{{ job.response.content | slice : 0 : 300 }}{{ job.response.content.length > 300 ? '...' : '' }}</p>
       <ng-template #footer>
         <div class="flex gap-4 mt-1">
           <div class="job-actions">

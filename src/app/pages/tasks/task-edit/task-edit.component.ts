@@ -1,21 +1,22 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ProviderSelectorComponent } from '@dataclouder/conversation-system';
+import { ChipModule } from 'primeng/chip';
+import { TooltipModule } from 'primeng/tooltip';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-// import { InputTextareaModule } from 'primeng/inputtextarea';
 import { CardModule } from 'primeng/card';
 import { DropdownModule } from 'primeng/dropdown';
-import { IAgentTask, AgentTaskOptions, AgentTaskStatus, AgentTaskStatusOptions, AgentTaskType, ISourceTask } from '../models/tasks-models';
 import { TextareaModule } from 'primeng/textarea';
+
+import { IAgentTask, AgentTaskOptions, AgentTaskStatus, AgentTaskStatusOptions, AgentTaskType, ISourceTask } from '../models/tasks-models';
 import { TasksService } from '../services/tasks.service';
 import { AgentCardService } from 'src/app/services/conversation-cards-ai-service';
 import { NotionService } from '../services/notion.service';
-import { ActivatedRoute, Router } from '@angular/router';
 import { AutoCompleteCompleteEvent, AutoCompleteModule } from 'primeng/autocomplete';
 import { ToastAlertService } from 'src/app/services/toast.service';
-import { ChipModule } from 'primeng/chip';
-import { TooltipModule } from 'primeng/tooltip';
 
 interface AgentCardOption {
   label: string;
@@ -37,6 +38,7 @@ interface AgentCardOption {
     AutoCompleteModule,
     ChipModule,
     TooltipModule,
+    ProviderSelectorComponent,
   ],
   templateUrl: './task-edit.component.html',
   styleUrl: './task-edit.component.css',
@@ -61,6 +63,8 @@ export class TaskEditComponent implements OnInit {
     status: [AgentTaskStatus.ACTIVE],
     taskType: [AgentTaskType.POST_NOTION],
     sources: this.fb.control<any[]>([]),
+    provider: ['openai'],
+    modelName: ['gpt-3.5-turbo'],
   });
 
   public taskTypes = AgentTaskOptions;
