@@ -59,6 +59,7 @@ export const Endpoints = {
     ListDBs: 'api/notion/list-databases',
     ListPages: 'api/notion/list-pages',
     Save: 'api/notion/save', // POST
+    CreatePage: 'api/notion-agent-tasks/create-agent-page', // Get :id
   },
 
   Lessons: {

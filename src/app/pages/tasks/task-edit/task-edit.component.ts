@@ -53,10 +53,7 @@ export class TaskEditComponent implements OnInit {
 
   public taskForm = this.fb.group({
     _id: [''],
-    agentCard: this.fb.group({
-      id: [''],
-      assets: [{}],
-    }),
+    agentCards: this.fb.control<any[]>([]),
     idNotionDB: [''],
     name: ['', Validators.required],
     description: [''],
@@ -130,7 +127,7 @@ export class TaskEditComponent implements OnInit {
       assets: card.assets,
     }));
 
-    this.showAgentImage(this.task?.agentCard?.id as string);
+    // this.showAgentImage(this.task?.agentCard?.id as string);
 
     this.cdr.detectChanges();
   }
@@ -190,13 +187,27 @@ export class TaskEditComponent implements OnInit {
   }
 
   onAgentCardChange(event: any) {
-    this.showAgentImage(event.value);
+    let agentCard: any = this.agentOptions.find(option => option.value === event.value);
+    agentCard = { ...agentCard, id: event.value };
+    // this.showAgentImage(event.value);
+    debugger;
+    this.taskForm.patchValue({
+      agentCards: [...(this.taskForm.controls.agentCards.value || []), agentCard],
+    });
+    console.log('Agent cards:', this.taskForm.controls.agentCards.value);
   }
 
-  showAgentImage(id: string) {
-    const agentCard = this.agentOptions.find(option => option.value === id);
-    console.log('Agent card:', agentCard);
-    this.selectedAssets = agentCard?.assets;
-    this.cdr.detectChanges();
+  removeAgentCard(agentCard: any) {
+    const currentAgentCards = this.taskForm.controls.agentCards.value || [];
+    this.taskForm.patchValue({
+      agentCards: currentAgentCards.filter((card: any) => card.id !== agentCard.id),
+    });
   }
+
+  // showAgentImage(id: string) {
+  //   const agentCard = this.agentOptions.find(option => option.value === id);
+  //   console.log('Agent card:', agentCard);
+  //   this.selectedAssets = agentCard?.assets;
+  //   this.cdr.detectChanges();
+  // }
 }

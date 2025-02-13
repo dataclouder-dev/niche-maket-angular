@@ -5,14 +5,23 @@
   <div style="margin-bottom: 10px" class="flex flex-column gap-3">
     <p-card [header]="task.name">
       <div style="display: flex; gap: 10px">
-        <img [src]="task.agentCard?.assets?.image?.url" alt="Agent Card Image" class="agent-card-image" />
-
         <div>
-          <div>{{ task.description }}</div>
+          <div>Agentes: {{ task.agentCards.length }}</div>
           <div>Estado: {{ task.status }}</div>
           <div>Tipo: {{ task.taskType }}</div>
           <div>Fuentes: {{ task.sources.length }}</div>
         </div>
+        <div style="display: flex; gap: 10px">
+          @for (agentCard of task.agentCards; track agentCard.id) {
+          <img [src]="agentCard.assets?.image?.url" class="agent-card-image" />
+          }
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 10px">
+        <p>
+          {{ task.description }}
+        </p>
       </div>
 
       <ng-template #footer>

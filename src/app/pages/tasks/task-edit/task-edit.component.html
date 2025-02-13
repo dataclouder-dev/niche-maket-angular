@@ -7,19 +7,31 @@
         <input style="width: 100%" id="name" type="text" pInputText formControlName="name" placeholder="Enter task title" />
       </div>
 
-      @if (selectedAssets) {
-      <img [src]="selectedAssets?.image?.url" class="agent-card-image" />
-      }
       <div class="field">
         <label for="agentCard">Agent Card</label>
         <p-dropdown
           [options]="agentOptions"
-          [formControl]="taskForm.controls.agentCard.controls.id"
           [placeholder]="'Select an agent card'"
           optionLabel="label"
           optionValue="value"
           [style]="{ width: '100%' }"
           (onChange)="onAgentCardChange($event)"></p-dropdown>
+      </div>
+      <div style="display: flex; gap: 15px">
+        @for (agentCard of taskForm.controls.agentCards.value; track agentCard.id) {
+        <div style="position: relative">
+          <img [src]="agentCard.assets?.image?.url" class="agent-card-image" />
+          <p-button
+            size="small"
+            [style]="{ position: 'absolute', top: '-10px', right: '-10px' }"
+            icon="pi pi-times"
+            [rounded]="true"
+            [text]="true"
+            severity="danger"
+            class="remove-agent-button"
+            (onClick)="removeAgentCard(agentCard)" />
+        </div>
+        }
       </div>
 
       <div class="form-field">

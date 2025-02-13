@@ -12,6 +12,7 @@ export interface IAgentTask {
   _id?: string;
   id: string;
   agentCard: Partial<IAgentCard>;
+  agentCards: Partial<IAgentCard>[];
   name: string;
   description: string;
   status: string;

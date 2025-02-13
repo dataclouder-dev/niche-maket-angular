@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { IAgentCard } from '@dataclouder/conversation-system';
 import { Endpoints } from 'src/app/core/enums';
 import { HttpService } from 'src/app/services/http.service';
 
@@ -28,5 +29,9 @@ export class NotionService {
 
   public getPagesAvailable(): Promise<NotionPageResponse> {
     return this.httpService.getDataFromService(Endpoints.Notion.ListPages);
+  }
+
+  public createNotionPage(card: IAgentCard): Promise<{ success: boolean; error: string; page: any }> {
+    return this.httpService.getDataFromService(`${Endpoints.Notion.CreatePage}/${card.id}`);
   }
 }
