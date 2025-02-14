@@ -57,3 +57,11 @@ deploy-release:
 	npm run prebuild
 	npm run build:prod
 	firebase deploy --project $(PROJECT_ID) --only hosting:$(PROJECT_ID)
+
+
+merge-upstream:
+	@echo "Merging upstream/main into $(PROJECT_NAME) fix errors manually and push to origin"
+	git fetch upstream
+	git checkout main
+	git merge upstream/main
+	
