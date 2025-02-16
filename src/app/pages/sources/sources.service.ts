@@ -20,4 +20,8 @@ export class SourceService {
   public async saveSource(source: ISourceLLM) {
     return this.httpService.postDataToService<ISourceLLM>(Endpoints.Sources.Source, source);
   }
+
+  public async deleteSource(id: string) {
+    return this.httpService.deleteDataFromService(`${Endpoints.Sources.Source}/${id}`);
+  }
 }
