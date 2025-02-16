@@ -16,7 +16,11 @@ export interface IAgentTask {
   name: string;
   description: string;
   status: string;
-  idNotionDB: string;
+  notionOutput: {
+    id: string;
+    name: string;
+    type: string;
+  };
   taskType: AgentTaskType;
   sources: ISourceTask[];
 }

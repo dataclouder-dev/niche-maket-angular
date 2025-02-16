@@ -3,6 +3,7 @@ import { UserDataExchange, UserDataExchangeAbstractService } from '@dataclouder/
 import { Endpoints } from 'src/app/core/enums';
 import { HttpService } from 'src/app/services/http.service';
 import { IAgentTask } from '../models/tasks-models';
+import { FiltersConfig, IFilterQueryResponse } from '@dataclouder/core-components';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +13,10 @@ export class TasksService {
 
   public getTasks() {
     return this.httpService.getDataFromService(Endpoints.Tasks.List);
+  }
+
+  public getFilteredTasks(filters: FiltersConfig): Promise<IFilterQueryResponse<IAgentTask>> {
+    return this.httpService.postDataToService(Endpoints.Tasks.Query, filters);
   }
 
   public getTaskById(id: string): Promise<IAgentTask> {

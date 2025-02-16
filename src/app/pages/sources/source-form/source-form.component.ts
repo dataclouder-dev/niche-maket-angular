@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ISourceLLM } from '../models/sources.model';
+import { ISourceLLM, SourceType, sourceTypeOptions } from '../models/sources.model';
 import { SourceService } from '../sources.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CardModule } from 'primeng/card';
@@ -9,6 +9,9 @@ import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
 import { Textarea } from 'primeng/inputtextarea';
 import { ButtonModule } from 'primeng/button';
+import { NotionService } from '../../tasks/services/notion.service';
+import { NotionExportType } from '../../tasks/models/notion.models';
+import { TOAST_ALERTS_TOKEN, ToastAlertsAbstractService } from '@dataclouder/core-components';
 
 @Component({
   selector: 'app-source-form',
@@ -18,21 +21,24 @@ import { ButtonModule } from 'primeng/button';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SourceFormComponent implements OnInit {
-  sourceForm: FormGroup;
-  types: { label: string; value: string }[] = [
-    { label: 'Document', value: 'document' },
-    { label: 'Website', value: 'website' },
-    { label: 'API', value: 'api' },
-  ];
+  sourceForm = this.fb.group({
+    name: ['', Validators.required],
+    description: [''],
+    type: [''],
+    content: [''],
+    sourceUrl: [''],
+    img: [''],
+  });
+  types = sourceTypeOptions;
 
-  constructor(private route: ActivatedRoute, private sourceService: SourceService, private fb: FormBuilder, private router: Router) {
-    this.sourceForm = this.fb.group({
-      name: ['', Validators.required],
-      type: ['', Validators.required],
-      content: ['', Validators.required],
-      img: [''],
-    });
-  }
+  constructor(
+    @Inject(TOAST_ALERTS_TOKEN) private toastService: ToastAlertsAbstractService,
+    private route: ActivatedRoute,
+    private sourceService: SourceService,
+    private fb: FormBuilder,
+    private router: Router,
+    private notionService: NotionService
+  ) {}
 
   public source: ISourceLLM | null = null;
   public sourceId = this.route.snapshot.params['id'];
@@ -46,11 +52,71 @@ export class SourceFormComponent implements OnInit {
     }
   }
 
-  async onSubmit() {
+  async saveSource() {
     if (this.sourceForm.valid) {
-      const source = await this.sourceService.saveSource(this.sourceForm.value);
-      debugger;
-      this.router.navigate(['../', source.id], { relativeTo: this.route });
+      const source = { ...this.source, ...this.sourceForm.value } as ISourceLLM;
+
+      const result = await this.sourceService.saveSource(source);
+
+      if (!this.sourceId) {
+        this.router.navigate([result.id], { relativeTo: this.route });
+      }
+      this.toastService.success({
+        title: 'Origen guardado',
+        subtitle: 'El origen ha sido guardado correctamente',
+      });
     }
+  }
+
+  async updateSource() {
+    if (this.sourceForm.valid) {
+      switch (this.sourceForm.value.type) {
+        case SourceType.DOCUMENT:
+          await this.updateDocumentSource();
+          break;
+        case SourceType.WEBSITE:
+          await this.updateWebsiteSource();
+          break;
+        case SourceType.API:
+          await this.updateApiSource();
+          break;
+        case SourceType.NOTION:
+          await this.updateNotionSource();
+          break;
+      }
+    }
+  }
+
+  private async updateDocumentSource() {
+    throw new Error('Not implemented');
+  }
+
+  private async updateWebsiteSource() {
+    throw new Error('Not implemented');
+  }
+
+  private async updateApiSource() {
+    throw new Error('Not implemented');
+  }
+
+  private async updateNotionSource() {
+    debugger;
+    const notionUrl = this.sourceForm.controls.sourceUrl.value;
+
+    const notionId = this.notionService.extractNotionPageId(notionUrl as string);
+    if (!notionId) {
+      throw new Error('Notion ID not found');
+    }
+
+    const page = await this.notionService.getPageInSpecificFormat(notionId, NotionExportType.MARKDOWN);
+    this.toastService.success({
+      title: 'Notion page fetched',
+      subtitle: 'The notion page has been fetched successfully',
+    });
+    this.sourceForm.patchValue({
+      content: page.content,
+    });
+
+    // throw new Error('Not implemented');
   }
 }

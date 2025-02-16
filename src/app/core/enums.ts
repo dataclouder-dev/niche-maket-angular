@@ -47,6 +47,7 @@ export const Endpoints = {
     List: 'api/agent-tasks', // GET
     Save: 'api/agent-tasks', // POST
     Execute: 'api/agent-tasks/execute', // GET /:ID
+    Query: 'api/agent-tasks/query', // GET
   },
   Jobs: {
     ByTask: 'api/agent-jobs/task', // GET /:ID
@@ -60,6 +61,7 @@ export const Endpoints = {
     ListPages: 'api/notion/list-pages',
     Save: 'api/notion/save', // POST
     CreatePage: 'api/notion-agent-tasks/create-agent-page', // Get :id
+    PageInSpecificFormat: 'api/notion/page-in-specific-format', // Get /{pageId}
   },
 
   Lessons: {

@@ -91,7 +91,6 @@ export class ChatComponentPage {
   }
 
   public handleMenuAction(event: any, action: string, card: IAgentCard) {
-    debugger;
     // const card = data.card; // The card data will be passed from the template
     switch (action) {
       case 'createNotionPage':

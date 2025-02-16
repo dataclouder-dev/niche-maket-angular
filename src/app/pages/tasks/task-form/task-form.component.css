@@ -43,7 +43,6 @@ label {
   position: relative;
   margin-bottom: 1.5rem;
   width: 100%;
-
 }
 
 .form-field label {
@@ -75,12 +74,12 @@ label {
 }
 
 /* Dropdown styling */
-:host ::ng-deep .p-dropdown {
+:host ::ng-deep .p-select {
   border-radius: 12px;
   transition: all 0.2s ease;
 }
 
-:host ::ng-deep .p-dropdown:hover {
+:host ::ng-deep .p-select:hover {
   border-color: var(--primary-color);
   /* transform: translateY(-1px); */
 }

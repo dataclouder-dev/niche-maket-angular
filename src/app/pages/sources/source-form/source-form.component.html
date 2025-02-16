@@ -1,11 +1,9 @@
-<h3>Here the form</h3>
-
 <div class="source-form-card">
   <p-card [header]="sourceId ? 'Edit Source' : 'New Source'">
-    <form [formGroup]="sourceForm" (ngSubmit)="onSubmit()" class="flex flex-column gap-4">
+    <form [formGroup]="sourceForm" class="flex flex-column gap-4">
       <div class="form-field">
-        <label for="name" class="block">Name</label>
-        <input id="name" type="text" pInputText formControlName="name" placeholder="Enter source name" class="w-full" />
+        <label for="name">Name</label>
+        <input id="name" type="text" pInputText formControlName="name" placeholder="Enter source name" />
       </div>
 
       <div class="form-field">
@@ -22,18 +20,30 @@
       </div>
 
       <div class="form-field">
-        <label for="content" class="block">Content</label>
-        <textarea id="content" pInputTextarea formControlName="content" rows="5" class="w-full" placeholder="Enter source content"> </textarea>
+        <label class="block">Source URL</label>
+        <input type="text" pInputText formControlName="sourceUrl" placeholder="Enter source URL" class="w-full" />
       </div>
 
       <div class="form-field">
-        <label for="img" class="block">Image URL</label>
-        <input id="img" type="text" pInputText formControlName="img" placeholder="Enter image URL" class="w-full" />
-      </div>
-
-      <div class="flex justify-content-end mt-4">
-        <p-button type="submit" label="Save Source" [disabled]="!sourceForm.valid" icon="pi pi-check" iconPos="right"> </p-button>
+        <label for="content" class="block">Content</label>
+        <textarea
+          [autoResize]="true"
+          style="width: 100%; max-height: 500px; overflow-y: auto"
+          id="content"
+          rows="2"
+          pInputTextarea
+          formControlName="content"
+          placeholder="Enter source content">
+        </textarea>
       </div>
     </form>
+
+    <div class="flex justify-content-end gap-2">
+      <p-button (click)="saveSource()" type="submit" label="Save Source" [disabled]="!sourceForm.valid" icon="pi pi-check" iconPos="right">
+      </p-button>
+
+      <p-button (click)="updateSource()" label="Actualizar Fuente" [disabled]="!sourceForm.valid" icon="pi pi-refresh" iconPos="right">
+      </p-button>
+    </div>
   </p-card>
 </div>

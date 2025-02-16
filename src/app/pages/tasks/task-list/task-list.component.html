@@ -1,4 +1,6 @@
-<dc-filter-bar (onNew)="onNew()"></dc-filter-bar>
+<dc-filter-bar (onFilterChange)="onFilterChange($event)" (onNew)="onNew()"></dc-filter-bar>
+
+<br />
 
 <div class="flex flex-column gap-3">
   @for (task of tasks; track task.id) {
@@ -19,7 +21,7 @@
       </div>
 
       <div style="display: flex; gap: 10px">
-        <p>
+        <p class="task-description">
           {{ task.description }}
         </p>
       </div>

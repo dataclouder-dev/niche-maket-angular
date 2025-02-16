@@ -119,11 +119,11 @@ export const routes: Routes = [
           },
           {
             path: 'edit',
-            loadComponent: () => import('./pages/tasks/task-edit/task-edit.component').then(m => m.TaskEditComponent),
+            loadComponent: () => import('./pages/tasks/task-form/task-form.component').then(m => m.TaskFormComponent),
           },
           {
             path: 'edit/:id',
-            loadComponent: () => import('./pages/tasks/task-edit/task-edit.component').then(m => m.TaskEditComponent),
+            loadComponent: () => import('./pages/tasks/task-form/task-form.component').then(m => m.TaskFormComponent),
           },
         ],
       },

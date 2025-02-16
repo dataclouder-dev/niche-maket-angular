@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { TasksService } from '../services/tasks.service';
-import { DCFilterBarComponent } from '@dataclouder/core-components';
+import { DCFilterBarComponent, FiltersConfig, PaginationBase } from '@dataclouder/core-components';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { ToastAlertService } from 'src/app/services/toast.service';
 import { DialogModule } from 'primeng/dialog';
-import { DialogService } from 'primeng/dynamicdialog';
 import { ChatMessage, DCConversationPromptBuilderService } from '@dataclouder/conversation-system';
 import { AgentCardService } from 'src/app/services/conversation-cards-ai-service';
 @Component({
@@ -17,22 +16,26 @@ import { AgentCardService } from 'src/app/services/conversation-cards-ai-service
   styleUrl: './task-list.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TaskListComponent implements OnInit {
+export class TaskListComponent extends PaginationBase implements OnInit {
   constructor(
     private tasksService: TasksService,
-    private router: Router,
-    private route: ActivatedRoute,
+    public override router: Router,
+    public override route: ActivatedRoute,
     private cdr: ChangeDetectorRef,
     private toastService: ToastAlertService,
     private promptBuilderService: DCConversationPromptBuilderService,
     private agentCardService: AgentCardService
-  ) {}
+  ) {
+    super(route, router);
+  }
 
   public tasks: any[] = [];
   loadingTasks: { [key: string]: boolean } = {};
 
   public showTaksDetails = false;
   public selectedTask: any;
+
+  public filters: FiltersConfig = { filters: {}, page: 0, rowsPerPage: 10, sort: { _id: -1 } };
 
   ngOnInit() {
     this.getTasks();
@@ -44,9 +47,14 @@ export class TaskListComponent implements OnInit {
   }
 
   public async getTasks() {
-    const tasks = await this.tasksService.getTasks();
-    this.tasks = tasks;
+    const tasks = await this.tasksService.getFilteredTasks(this.filters);
+    this.tasks = tasks.rows;
     this.cdr.detectChanges();
+  }
+
+  public onFilterChange(filters: FiltersConfig) {
+    console.log('onFilterChange', filters);
+    this.getTasks();
   }
 
   public editTask(task: any) {
@@ -94,5 +102,10 @@ export class TaskListComponent implements OnInit {
     this.promptMessages = this.promptBuilderService.buildPrompt(agentCard);
     this.showTaksDetails = true;
     this.cdr.detectChanges();
+  }
+
+  protected override async loadData(): Promise<void> {
+    const tasks = await this.tasksService.getFilteredTasks(this.filters);
+    this.tasks = tasks.rows;
   }
 }

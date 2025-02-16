@@ -16,7 +16,7 @@ export class ToastAlertService extends ToastAlertsAbstractService {
       message: `${data.title}: ${data.subtitle}`,
       color: color,
       duration: duration,
-      position: 'bottom',
+      position: 'top',
     });
     toast.present();
   }

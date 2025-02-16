@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpService } from '../../services/http.service';
 import { Endpoints } from '../../core/enums';
 import { ISourceLLM } from './models/sources.model';
+import { FiltersConfig } from '@dataclouder/core-components';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +12,10 @@ export class SourceService {
 
   public async getSources() {
     return this.httpService.getDataFromService<ISourceLLM[]>(Endpoints.Sources.Source);
+  }
+
+  public async getFilteredSources(filterConfig: FiltersConfig) {
+    return this.httpService.postDataToService<ISourceLLM[]>(Endpoints.Sources.Source, filterConfig);
   }
 
   public async getSource(id: string) {

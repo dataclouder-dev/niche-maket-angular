@@ -12,8 +12,10 @@
       [buttonProps]="{ severity: 'primary', rounded: true, outlined: true }" />
   </div>
   <p-card [header]="source.name">
-    <p class="m-0">{{ source.content }}</p>
-    <span>{{ source.type }}</span> <span>{{ source.updatedAt }}</span>
+    <p class="m-0">{{ source.content | slice : 0 : 250 }}...</p>
+    <p-chip [label]="source.type" />
+
+    <span>{{ source.updatedAt | date : 'dd/MM/yyyy HH:mm' }}</span>
   </p-card>
 </div>
 

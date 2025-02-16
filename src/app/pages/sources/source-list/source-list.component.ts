@@ -8,10 +8,12 @@ import { ISourceLLM } from '../models/sources.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SpeedDialModule } from 'primeng/speeddial';
 import { MenuItem } from 'primeng/api';
+import { SlicePipe, DatePipe } from '@angular/common';
+import { ChipModule } from 'primeng/chip';
 
 @Component({
   selector: 'app-source-list',
-  imports: [CardModule, ButtonModule, DCFilterBarComponent, SpeedDialModule],
+  imports: [CardModule, ButtonModule, DCFilterBarComponent, SpeedDialModule, SlicePipe, DatePipe, ChipModule],
   templateUrl: './source-list.component.html',
   styleUrl: './source-list.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -48,7 +50,6 @@ export class SourceListComponent implements OnInit {
   ) {}
 
   public async doAction(action: string, item: any) {
-    debugger;
     switch (action) {
       case 'view':
         this.router.navigate(['./details', item.id], { relativeTo: this.route });
