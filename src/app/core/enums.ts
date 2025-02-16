@@ -66,6 +66,11 @@ export const Endpoints = {
     Lesson: 'api/lessonv2/lesson',
     QueryLessons: 'api/lessonv2/query',
   },
+
+  Sources: {
+    Source: 'api/sources-llm',
+    QuerySources: 'api/sources-llm/query',
+  },
 };
 
 export enum AppHttpCode {

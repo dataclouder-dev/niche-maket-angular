@@ -73,6 +73,9 @@ import {
   lockOpen,
   moon,
   sunny,
+  documentText,
+  documentAttachOutline,
+  documentAttach,
 } from 'ionicons/icons';
 import { environment } from 'src/environments/environment';
 import { FirebaseAuthService } from '@dataclouder/app-auth';
@@ -183,6 +186,9 @@ export class IonicLayoutComponent implements OnInit {
       lockOpen,
       moon,
       sunny,
+      documentText,
+      documentAttachOutline,
+      documentAttach,
     });
     addIcons({ library, playCircle, radio, search });
     addIcons({ ellipsisHorizontal, ellipsisVertical, helpCircle, personCircle, search });

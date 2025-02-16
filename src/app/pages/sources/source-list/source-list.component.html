@@ -1,0 +1,12 @@
+<dc-filter-bar (onNew)="onNew()"></dc-filter-bar>
+<br />
+
+@for (source of sources; track source.id) {
+<div class="card-source">
+  <p-card [header]="source.name">
+    <p class="m-0">{{ source.content }}</p>
+    <span>{{ source.type }}</span> <span>{{ source.updatedAt }}</span>
+  </p-card>
+</div>
+
+}

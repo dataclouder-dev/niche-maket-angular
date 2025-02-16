@@ -149,6 +149,28 @@ export const routes: Routes = [
           },
         ],
       },
+      {
+        path: 'sources',
+        loadComponent: () => import('./pages/sources/sources.component').then(m => m.SourcesComponent),
+        children: [
+          {
+            path: '',
+            loadComponent: () => import('./pages/sources/source-list/source-list.component').then(m => m.SourceListComponent),
+          },
+          {
+            path: 'edit',
+            loadComponent: () => import('./pages/sources/source-form/source-form.component').then(m => m.SourceFormComponent),
+          },
+          {
+            path: 'edit/:id',
+            loadComponent: () => import('./pages/sources/source-form/source-form.component').then(m => m.SourceFormComponent),
+          },
+          {
+            path: 'details/:id',
+            loadComponent: () => import('./pages/sources/source-detail/source-detail.component').then(m => m.SourceDetailComponent),
+          },
+        ],
+      },
 
       {
         path: 'test',
