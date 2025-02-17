@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProviderSelectorComponent } from '@dataclouder/conversation-system';
+import { IAgentCard, ProviderSelectorComponent } from '@dataclouder/conversation-system';
 import { ChipModule } from 'primeng/chip';
 import { TooltipModule } from 'primeng/tooltip';
 import { ButtonModule } from 'primeng/button';
@@ -20,12 +20,6 @@ import { NotionService } from '../services/notion.service';
 import { AutoCompleteCompleteEvent, AutoCompleteModule } from 'primeng/autocomplete';
 import { ToastAlertService } from 'src/app/services/toast.service';
 import { SourceService } from '../../sources/sources.service';
-
-interface AgentCardOption {
-  label: string;
-  value: string;
-  assets: Record<string, any>;
-}
 
 @Component({
   selector: 'app-task-edit',
@@ -56,6 +50,7 @@ export class TaskFormComponent implements OnInit {
   public id = this.route.snapshot.params['id'];
 
   public sources: ISourceTask[] = [];
+  public dbOptions: any[] = [];
 
   public taskForm = this.fb.group({
     _id: [''],
@@ -74,6 +69,7 @@ export class TaskFormComponent implements OnInit {
 
   public statuses = AgentTaskStatusOptions;
   private sourcesOptions: ISourceTask[] = [];
+  public agentOptions: IAgentCard[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -98,7 +94,12 @@ export class TaskFormComponent implements OnInit {
   private async getTaskIfIdParam() {
     if (this.id) {
       this.task = await this.tasksService.getTaskById(this.id);
+      if (this.task.notionOutput) {
+        this.dbOptions = [this.task.notionOutput];
+      }
       this.taskForm.patchValue(this.task as any);
+      console.log('Task:', this.taskForm.value);
+      debugger;
       this.cdr.detectChanges();
     }
   }
@@ -123,11 +124,6 @@ export class TaskFormComponent implements OnInit {
 
   private async getAgentSources() {
     this.sources = await this.sourceService.getSources();
-    console.log('Sources:', this.sources);
-
-    // const sources = await this.notionService.getPagesAvailable();
-    // this.sourcesOptions = sources.pages.map((page: any) => ({ id: page.id, name: page.title, type: 'notion' }));
-    // this.toastService.success({ title: 'Fuentes encontradas', subtitle: 'Intenta de nuevo' });
     this.cdr.detectChanges();
   }
 
@@ -144,36 +140,26 @@ export class TaskFormComponent implements OnInit {
     }
   }
 
-  public agentOptions: AgentCardOption[] = [];
-
   private async getAgentCards() {
     const agentCards = await this.agentCardService.findAgentCards({});
 
-    this.agentOptions = agentCards.rows.map((card: any) => ({
-      label: card.title || 'Untitled Card',
-      value: card.id,
+    this.agentOptions = agentCards.rows.map((card: IAgentCard) => ({
+      title: card.title || 'Untitled Card',
+      id: card.id,
       assets: card.assets,
+      name: card?.characterCard?.data?.name,
     }));
-
-    // this.showAgentImage(this.task?.agentCard?.id as string);
+    debugger;
 
     this.cdr.detectChanges();
   }
 
-  public dbOptions: any[] = [];
-
   public async getNotionDBs() {
     const notionDBs = await this.notionService.getDBAvailible();
-    console.log('Notion DBs:', notionDBs);
-
     this.dbOptions = notionDBs.databases.map((db: any) => ({ name: db.title, id: db.id, type: 'database' }));
-    debugger;
 
     console.log('DBs:', this.dbOptions);
     this.toastService.success({ title: 'Bases encontradas', subtitle: 'Selecciona alguna' });
-
-    // this.notionDBOptions = notionDBs.map((db: any) => ({ label: db.name, value: db.id }));
-    // console.log('Notion DBs:', this.notionDBOptions);
     this.cdr.detectChanges();
   }
 
@@ -191,23 +177,10 @@ export class TaskFormComponent implements OnInit {
     }
   }
 
-  removeSource(sourceToRemove: string) {
+  public removeSource(sourceToRemove: string) {
     const currentSources = this.taskForm.get('sources')?.value || [];
-    // tODO fix this
-    // this.taskForm.patchValue({
-    //   sources: currentSources.filter((source: string) => source !== sourceToRemove),
-    // });
     this.cdr.detectChanges();
   }
-
-  // TODO: Deprecated
-  // search(event: AutoCompleteCompleteEvent) {
-  //   if (this.sourcesOptions.length === 0) {
-  //     this.toastService.info({ title: 'Buscando', subtitle: 'Espera buscando fuentes...' });
-  //     this.getSources();
-  //   }
-  //   this.sourceSuggestions = this.sourcesOptions.filter(item => item.name.toLowerCase().includes(event.query.toLowerCase()));
-  // }
 
   selectSource(event: any) {
     debugger;
@@ -220,12 +193,11 @@ export class TaskFormComponent implements OnInit {
   }
 
   onAgentCardChange(event: any) {
-    let agentCard: any = this.agentOptions.find(option => option.value === event.value);
-    agentCard = { ...agentCard, id: event.value };
-    // this.showAgentImage(event.value);
-
+    debugger;
+    // let agentCard: any = this.agentOptions.find(option => option.id === event.value);
+    // agentCard = { ...agentCard, id: event.value };
     this.taskForm.patchValue({
-      agentCards: [...(this.taskForm.controls.agentCards.value || []), agentCard],
+      agentCards: [...(this.taskForm.controls.agentCards.value || []), event.value],
     });
     console.log('Agent cards:', this.taskForm.controls.agentCards.value);
   }
@@ -236,11 +208,4 @@ export class TaskFormComponent implements OnInit {
       agentCards: currentAgentCards.filter((card: any) => card.id !== agentCard.id),
     });
   }
-
-  // showAgentImage(id: string) {
-  //   const agentCard = this.agentOptions.find(option => option.value === id);
-  //   console.log('Agent card:', agentCard);
-  //   this.selectedAssets = agentCard?.assets;
-  //   this.cdr.detectChanges();
-  // }
 }

@@ -7,43 +7,41 @@
         <input style="width: 100%" id="name" type="text" pInputText formControlName="name" placeholder="Enter task title" />
       </div>
 
-      <div style="display: flex; gap: 15px">
-        @for (agentCard of taskForm.controls.agentCards.value; track agentCard.id) {
-        <div style="position: relative">
-          <img [src]="agentCard.assets?.image?.url" class="agent-card-image" />
-          <p-button
-            size="small"
-            [style]="{ position: 'absolute', top: '-10px', right: '-10px' }"
-            icon="pi pi-times"
-            [rounded]="true"
-            [text]="true"
-            severity="danger"
-            class="remove-agent-button"
-            (onClick)="removeAgentCard(agentCard)" />
-        </div>
-        }
-      </div>
-
       <div class="field">
-        <label for="agentCard">Agent Card</label>
+        <label for="agentCard">Agent Cards</label>
+
+        <div style="display: flex; gap: 15px; margin-bottom: 8px; margin-top: 8px">
+          @for (agentCard of taskForm.controls.agentCards.value; track agentCard.id) {
+          <div style="position: relative">
+            <img [src]="agentCard.assets?.image?.url" class="agent-card-image" />
+            <p-button
+              size="small"
+              [style]="{ position: 'absolute', top: '-10px', right: '-10px' }"
+              icon="pi pi-times"
+              [rounded]="true"
+              [text]="true"
+              severity="danger"
+              class="remove-agent-button"
+              (onClick)="removeAgentCard(agentCard)" />
+          </div>
+          }
+        </div>
 
         <p-select
           [options]="agentOptions"
           [placeholder]="'Select an agent card'"
-          optionLabel="label"
-          optionValue="value"
           [style]="{ width: '100%' }"
           (onChange)="onAgentCardChange($event)">
           <ng-template #selectedItem let-selectedOption>
             <div style="display: flex; align-items: center; gap: 10px" *ngIf="selectedOption">
               <img [src]="selectedOption.assets?.image?.url" style="width: 18px" />
-              <div>{{ selectedOption.label }}</div>
+              <div>{{ selectedOption.title }}</div>
             </div>
           </ng-template>
           <ng-template let-item #item>
             <div style="display: flex; gap: 10px">
               <img [src]="item.assets?.image?.url" style="width: 18px" />
-              <div>{{ item?.label }}</div>
+              <div>{{ item?.title }}</div>
             </div>
           </ng-template>
           <ng-template #dropdownicon>
@@ -62,6 +60,13 @@
 
       <div class="field">
         <label>Fuentes de información</label>
+
+        <div style="margin-bottom: 8px; margin-top: 8px; display: flex; flex-wrap: wrap; gap: 10px">
+          @for (source of taskForm.get('sources')?.value; track source.id) {
+          <p-chip [label]="source.name" [removable]="true" (onRemove)="removeSource(source)" class="mr-2 mb-2"> </p-chip>
+          }
+        </div>
+
         <p-select [options]="sources" [placeholder]="'Select an agent card'" [style]="{ width: '100%' }" (onChange)="addSourceToTask($event)">
           <ng-template #selectedItem let-selectedOption>
             <div style="display: flex; align-items: center; gap: 10px" *ngIf="selectedOption">
@@ -80,12 +85,6 @@
             <i class="pi pi-file-import"></i>
           </ng-template>
         </p-select>
-
-        <div style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 10px">
-          @for (source of taskForm.get('sources')?.value; track source.id) {
-          <p-chip [label]="source.name" [removable]="true" (onRemove)="removeSource(source)" class="mr-2 mb-2"> </p-chip>
-          }
-        </div>
       </div>
 
       <div class="form-field">
@@ -103,13 +102,18 @@
             id="idNotionDB"
             [options]="dbOptions"
             optionLabel="name"
-            optionValue="id"
-            formControlName="idNotionDB"
+            formControlName="notionOutput"
             placeholder="Select Notion DB"
             class="w-full">
           </p-select>
         </div>
-        <p-button (onClick)="getNotionDBs()" pTooltip="Buscar bases en Notion" severity="secondary" size="small" icon="pi pi-plus" />
+        <p-button
+          (onClick)="getNotionDBs()"
+          pTooltip="Buscar bases en Notion"
+          tooltipPosition="left"
+          severity="secondary"
+          size="small"
+          icon="pi pi-search" />
       </div>
       }
 

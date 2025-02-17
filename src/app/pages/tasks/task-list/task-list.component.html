@@ -2,6 +2,13 @@
 
 <br />
 
+@if (tasks.length === 0) {
+<div class="flex flex-column gap-3">
+  <p-card>
+    <div>No hay tareas</div>
+  </p-card>
+</div>
+} @else {
 <div class="flex flex-column gap-3">
   @for (task of tasks; track task.id) {
   <div style="margin-bottom: 10px" class="flex flex-column gap-3">
@@ -12,6 +19,16 @@
           <div>Estado: {{ task.status }}</div>
           <div>Tipo: {{ task.taskType }}</div>
           <div>Fuentes: {{ task.sources.length }}</div>
+
+          @if (task.sources.length > 0) {
+          <ul>
+            @for (source of task.sources; track source.id) {
+            <li>{{ source.name }}</li>
+            }
+          </ul>
+          } @if (task.notionOutput) {
+          <div>Salida: {{ task.notionOutput.name }}</div>
+          }
         </div>
         <div style="display: flex; gap: 10px">
           @for (agentCard of task.agentCards; track agentCard.id) {
@@ -54,4 +71,4 @@
     }
   </div>
 </p-dialog>
-}
+} }
