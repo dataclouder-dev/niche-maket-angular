@@ -11,18 +11,32 @@ export type IAgentCardMinimal = Pick<IAgentCard, 'id' | 'assets'>;
 export interface IAgentTask {
   _id?: string;
   id: string;
-  agentCard: Partial<IAgentCard>;
-  agentCards: Partial<IAgentCard>[];
   name: string;
   description: string;
+  agentCards: Partial<IAgentCard>[];
   status: string;
-  notionOutput: {
-    id: string;
-    name: string;
-    type: string;
-  };
+
   taskType: AgentTaskType;
+  taskAttached: Partial<IAgentTask>;
+
   sources: ISourceTask[];
+  output: ITaskOutput;
+  model: IAIModel;
+
+  // Deprecated
+  notionOutput: { id: string; name: string; type: string };
+}
+
+export interface IAIModel {
+  id: string;
+  provider: string;
+  modelName: string;
+}
+
+export interface ITaskOutput {
+  id?: string;
+  type?: string;
+  name?: string;
 }
 
 export enum AgentTaskStatus {
@@ -35,10 +49,14 @@ export const AgentTaskStatusOptions = [
 ];
 
 export enum AgentTaskType {
-  POST_NOTION = 'post_notion',
+  REVIEW_TASK = 'review_task',
+  CREATE_CONTENT = 'create_content',
 }
 
-export const AgentTaskOptions = [{ label: 'Publicar en Notion', value: AgentTaskType.POST_NOTION }];
+export const AgentTaskOptions = [
+  { label: 'Revisar tarea', value: AgentTaskType.REVIEW_TASK },
+  { label: 'Crear contenido', value: AgentTaskType.CREATE_CONTENT },
+];
 
 export interface IAgentJob {
   _id?: string;

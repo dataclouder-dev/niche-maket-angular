@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpService } from '../../services/http.service';
 import { Endpoints } from '../../core/enums';
 import { ISourceLLM } from './models/sources.model';
-import { FiltersConfig } from '@dataclouder/core-components';
+import { FiltersConfig, IFilterQueryResponse } from '@dataclouder/core-components';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +15,7 @@ export class SourceService {
   }
 
   public async getFilteredSources(filterConfig: FiltersConfig) {
-    return this.httpService.postDataToService<ISourceLLM[]>(Endpoints.Sources.Source, filterConfig);
+    return this.httpService.postDataToService<IFilterQueryResponse<ISourceLLM>>(Endpoints.Sources.QuerySources, filterConfig);
   }
 
   public async getSource(id: string) {
@@ -28,5 +28,9 @@ export class SourceService {
 
   public async deleteSource(id: string) {
     return this.httpService.deleteDataFromService(`${Endpoints.Sources.Source}/${id}`);
+  }
+
+  public async getYoutubeContent(url: string) {
+    return this.httpService.getDataFromService<string>(`${Endpoints.Sources.YoutubeTranscript}?url=${url}`);
   }
 }

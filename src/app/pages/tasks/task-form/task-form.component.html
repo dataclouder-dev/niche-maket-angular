@@ -61,13 +61,15 @@
       <div class="field">
         <label>Fuentes de información</label>
 
-        <div style="margin-bottom: 8px; margin-top: 8px; display: flex; flex-wrap: wrap; gap: 10px">
-          @for (source of taskForm.get('sources')?.value; track source.id) {
-          <p-chip [label]="source.name" [removable]="true" (onRemove)="removeSource(source)" class="mr-2 mb-2"> </p-chip>
-          }
-        </div>
+        @if (taskForm.controls.sources.value?.length === 0) {
+        <p>Sin fuentes</p>
+        }
 
-        <p-select [options]="sources" [placeholder]="'Select an agent card'" [style]="{ width: '100%' }" (onChange)="addSourceToTask($event)">
+        <p-select
+          [options]="sourcesOptions"
+          [placeholder]="'Select data sources for task'"
+          [style]="{ width: '100%' }"
+          (onChange)="addSourceToTask($event)">
           <ng-template #selectedItem let-selectedOption>
             <div style="display: flex; align-items: center; gap: 10px" *ngIf="selectedOption">
               <img [src]="selectedOption.assets?.image?.url" style="width: 18px" />
@@ -93,16 +95,29 @@
         <p-dropdown id="taskType" [options]="taskTypes" formControlName="taskType" placeholder="Select Task Type" class="w-full"> </p-dropdown>
       </div>
 
-      @if (taskForm.controls.taskType.value === 'post_notion') {
+      @if (taskForm.controls.taskType.value === 'review_task') {
+      <div class="form-field">
+        <label for="taskAttached" class="block">Tarea a revisar</label>
+        <br />
+        <p-dropdown
+          id="taskAttached"
+          [options]="taskAttachedOptions"
+          formControlName="taskAttached"
+          optionLabel="name"
+          placeholder="Select Task Attached"
+          class="w-full">
+        </p-dropdown>
+      </div>
+      }
+
       <div style="display: flex; gap: 10px">
         <div class="form-field">
-          <label for="idNotionDB" class="block" pTooltip="El agente tiene dominio sobre esta base de datos">Notion DB Id</label>
+          <label class="block" pTooltip="El agente tiene dominio sobre esta base de datos">Resultados en Base de Notion</label>
           <p-select
             styleClass="w-full"
-            id="idNotionDB"
             [options]="dbOptions"
             optionLabel="name"
-            formControlName="notionOutput"
+            formControlName="output"
             placeholder="Select Notion DB"
             class="w-full">
           </p-select>
@@ -115,7 +130,6 @@
           size="small"
           icon="pi pi-search" />
       </div>
-      }
 
       <div class="form-field">
         <label for="description" class="block">Description</label>
@@ -128,39 +142,13 @@
           placeholder="Enter task description"></textarea>
       </div>
 
-      <!-- <div class="field">
-        <label for="sources">Sources</label>
-        <div class="p-inputgroup">
-          <p-autoComplete
-            lazy="true"
-            [suggestions]="sourceSuggestions"
-            optionLabel="name"
-            optionValue="id"
-            [dropdown]="true"
-            placeholder="Select a source"
-            (onSelect)="selectSource($event)">
-          </p-autoComplete>
-          <button pButton type="button" icon="pi pi-plus" (click)="addSource()" [disabled]="!selectedSource"></button>
-        </div>
-        <br />
-        <div class="selected-sources mt-2">
-          <p-chip
-            *ngFor="let source of taskForm.get('sources')?.value"
-            [label]="source.name"
-            [removable]="true"
-            (onRemove)="removeSource(source)"
-            class="mr-2 mb-2">
-          </p-chip>
-        </div>
-      </div> -->
-
       <div class="form-field">
         <label for="status" class="block">Status</label>
         <br />
         <p-dropdown id="status" [options]="statuses" formControlName="status" placeholder="Select Status" class="w-full"> </p-dropdown>
       </div>
 
-      <dc-provider-selector [parentForm]="taskForm"></dc-provider-selector>
+      <dc-provider-selector [parentForm]="taskForm.controls.model"></dc-provider-selector>
 
       <div class="flex justify-content-end mt-4">
         <p-button type="submit" label="Save Task" [disabled]="!taskForm.valid" icon="pi pi-check" iconPos="right"> </p-button>

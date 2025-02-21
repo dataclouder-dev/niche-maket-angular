@@ -77,8 +77,8 @@ export class SourceFormComponent implements OnInit {
         case SourceType.WEBSITE:
           await this.updateWebsiteSource();
           break;
-        case SourceType.API:
-          await this.updateApiSource();
+        case SourceType.YOUTUBE:
+          await this.updateYoutubeSource();
           break;
         case SourceType.NOTION:
           await this.updateNotionSource();
@@ -95,12 +95,15 @@ export class SourceFormComponent implements OnInit {
     throw new Error('Not implemented');
   }
 
-  private async updateApiSource() {
-    throw new Error('Not implemented');
+  private async updateYoutubeSource() {
+    const youtubeUrl = this.sourceForm.controls.sourceUrl.value;
+    const transcript: any = await this.sourceService.getYoutubeContent(youtubeUrl as string);
+    this.sourceForm.patchValue({
+      content: transcript.text,
+    });
   }
 
   private async updateNotionSource() {
-    debugger;
     const notionUrl = this.sourceForm.controls.sourceUrl.value;
 
     const notionId = this.notionService.extractNotionPageId(notionUrl as string);

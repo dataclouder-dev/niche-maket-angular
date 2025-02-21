@@ -65,3 +65,5 @@ merge-upstream:
 	git checkout main
 	git merge upstream/main
 	
+start:
+	npm run start

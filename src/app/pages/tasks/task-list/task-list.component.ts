@@ -83,6 +83,9 @@ export class TaskListComponent extends PaginationBase implements OnInit {
       this.toastService.info({ title: 'Ejecutando tarea...', subtitle: 'Puede tardar hasta 1 minuto, sé paciente' });
       await this.tasksService.executeTask(task._id);
       this.toastService.success({ title: 'Tarea ejecutada correctamente', subtitle: 'Los resultados se han guardado' });
+    } catch (error) {
+      console.error('Error executing task', error);
+      this.toastService.error({ title: 'Error al ejecutar la tarea', subtitle: 'Por favor, inténtelo de nuevo más tarde' });
     } finally {
       this.loadingTasks[task._id] = false;
       this.cdr.detectChanges();

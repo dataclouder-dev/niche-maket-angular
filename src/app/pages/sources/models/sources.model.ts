@@ -6,7 +6,7 @@ export interface AuditDate {
 export enum SourceType {
   DOCUMENT = 'document',
   WEBSITE = 'website',
-  API = 'api',
+  YOUTUBE = 'youtube',
   NOTION = 'notion',
 }
 
@@ -17,12 +17,13 @@ export interface ISourceLLM extends AuditDate {
   type: SourceType;
   sourceUrl: string;
   content: string;
+  contentEnhancedAI?: string;
   img: string;
 }
 
 export const sourceTypeOptions = [
   { label: 'Document', value: SourceType.DOCUMENT },
   { label: 'Website', value: SourceType.WEBSITE },
-  { label: 'API', value: SourceType.API },
+  { label: 'Youtube', value: SourceType.YOUTUBE },
   { label: 'Notion', value: SourceType.NOTION },
 ];

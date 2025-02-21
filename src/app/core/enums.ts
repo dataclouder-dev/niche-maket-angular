@@ -72,6 +72,7 @@ export const Endpoints = {
   Sources: {
     Source: 'api/sources-llm',
     QuerySources: 'api/sources-llm/query',
+    YoutubeTranscript: 'api/sources-llm/youtube-transcript',
   },
 };
 
