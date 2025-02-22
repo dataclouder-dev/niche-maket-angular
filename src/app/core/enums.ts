@@ -30,6 +30,10 @@ export const Endpoints = {
   GetUser: 'api/user',
   PostUser: 'api/user',
   AdminUser: 'api/admin/user',
+  Generics: {
+    Generics: 'api/generics',
+    GenericsFiltered: 'api/generics/query',
+  },
   Admin: {
     Claims: 'api/admin/claims', // :email
   },
@@ -73,6 +77,12 @@ export const Endpoints = {
     Source: 'api/sources-llm',
     QuerySources: 'api/sources-llm/query',
     YoutubeTranscript: 'api/sources-llm/youtube-transcript',
+    Notion: {
+      ListDBs: 'api/notion/list-dbs',
+      ListPages: 'api/notion/list-pages',
+      CreatePage: 'api/notion/create-page',
+      PageInSpecificFormat: 'api/notion/page-in-specific-format', // Get /{pageId}
+    },
   },
 };
 
