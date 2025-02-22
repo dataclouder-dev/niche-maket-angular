@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent } from '@ionic/angular/standalone';
@@ -11,16 +11,19 @@ import {
   ConversationCardListsComponent,
   AudioSpeed,
   IAgentCard,
+  AgentCardsAbstractService,
+  CONVERSATION_AI_TOKEN,
 } from '@dataclouder/conversation-system';
-import { NavigationExtras, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { NotionService } from '../../tasks/services/notion.service';
 import { ToastAlertService } from 'src/app/services/toast.service';
+import { TOAST_ALERTS_TOKEN, ToastAlertsAbstractService } from '@dataclouder/core-components';
 
 @Component({
   selector: 'app-chat',
-  templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.scss'],
+  templateUrl: './agent.component.html',
+  styleUrls: ['./agent.component.scss'],
   standalone: true,
   imports: [CommonModule, FormsModule, IonContent, ConversationCardListsComponent],
 })
@@ -53,7 +56,16 @@ export class ChatComponentPage {
   messages: any[] = [];
   newMessage: string = '';
 
-  constructor(private router: Router, private notionService: NotionService, private toastAlert: ToastAlertService) {
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef,
+    private notionService: NotionService,
+    private toastAlert: ToastAlertService,
+    @Inject(TOAST_ALERTS_TOKEN) private toastService: ToastAlertsAbstractService,
+
+    @Inject(CONVERSATION_AI_TOKEN) private agentCardService: AgentCardsAbstractService
+  ) {
     addIcons({ send, sendOutline, sendSharp });
   }
 
@@ -64,12 +76,47 @@ export class ChatComponentPage {
     // and becouse i'm using function in this context and in to bind(this) -> getCustomButtons.bind(this)
     return [
       {
-        // one param is already hardcode and event is to get the original event
-        label: 'Crear Página Notion',
-        icon: 'pi pi-address-book',
-        command: event => this.handleMenuAction(event, 'createNotionPage', card),
+        label: 'Ver detalles',
+        tooltipOptions: { tooltipLabel: 'Ver detalles', tooltipPosition: 'bottom' },
+        icon: 'pi pi-eye',
+        command: () => this.doAction('view', card),
+      },
+      {
+        icon: 'pi pi-pencil',
+        tooltipOptions: { tooltipLabel: 'Editar', tooltipPosition: 'bottom' },
+        command: () => this.doAction('edit', card),
+      },
+      {
+        icon: 'pi pi-trash',
+        tooltipOptions: { tooltipLabel: 'Eliminar', tooltipPosition: 'bottom' },
+        command: () => this.doAction('delete', card),
       },
     ];
+  }
+
+  public async doAction(action: string, item: any) {
+    debugger;
+    const itemId = item._id || item.id;
+    switch (action) {
+      case 'view':
+        this.router.navigate(['./details', item.id], { relativeTo: this.route });
+        break;
+      case 'delete':
+        const areYouSure = confirm('¿Estás seguro de querer eliminar este origen?');
+        if (areYouSure) {
+          await this.agentCardService.deleteConversationCard(item.id);
+          // this.conversationCards = this.conversationCards.filter((card) => card._id !== id);
+
+          this.toastService.success({ title: 'Conversation card deleted', subtitle: 'Pero tienes que actualizar la página para ver el cambio' });
+
+          this.cdr.detectChanges();
+        }
+
+        break;
+      case 'edit':
+        this.router.navigate(['../stack/conversation-form', itemId], { relativeTo: this.route });
+        break;
+    }
   }
 
   public goToDetails(idCard: any) {

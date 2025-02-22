@@ -1,7 +1,12 @@
 <div class="ion-page" id="main-content">
   <ion-header [translucent]="true">
     <ion-toolbar>
-      <ion-title>{{ projectName.slice(0, 12) }}</ion-title>
+      <ion-title>
+        <div style="display: flex; align-items: center; gap: 10px">
+          <ion-img src="assets/icon/logo.svg" class="header-logo"></ion-img>
+          <span>{{ projectName.slice(0, 12) }}</span>
+        </div>
+      </ion-title>
 
       <ion-buttons slot="end">
         <ion-button shape="round" (click)="goToSignin()">
@@ -21,8 +26,7 @@
       <section class="hero-section">
         <h1>UNLOCK THE POWER OF YOUR NOTION WORKSPACE</h1>
         <p class="subtitle">
-          Transform your Notion databases into AI-ready knowledge nodes. Organize, process, and leverage your data for the next generation of AI
-          agents.
+          Transform your Notion databases into AI-ready knowledge nodes. Organize, process, and leverage your data for the next generation of AI agents.
         </p>
         <img src="assets/images/notion-ai-integration.jpg" alt="Notion AI Integration" />
       </section>
@@ -43,9 +47,7 @@
       <!-- Solution Section -->
       <section class="solution-section">
         <h2>INTEGRATE, PROCESS, TRANSFORM</h2>
-        <p>
-          Welcome to NotionAI Bridge - your gateway to making Notion data AI-ready. Transform your workspace into a powerful knowledge engine.
-        </p>
+        <p>Welcome to NotionAI Bridge - your gateway to making Notion data AI-ready. Transform your workspace into a powerful knowledge engine.</p>
 
         <div class="features-grid">
           <div class="feature-card">
@@ -91,10 +93,7 @@
         <div class="testimonials-grid">
           <div class="testimonial-card">
             <img src="assets/images/default_conversation_card.webp" alt="John Smith" />
-            <p>
-              "NotionAI Bridge transformed how we handle documentation. Our team's productivity increased by 40% after implementing the AI
-              integration."
-            </p>
+            <p>"NotionAI Bridge transformed how we handle documentation. Our team's productivity increased by 40% after implementing the AI integration."</p>
             <h4>- John Smith, Tech Lead</h4>
           </div>
         </div>
@@ -142,56 +141,56 @@
           <div class="faq-item">
             <h3>How does NotionAI Bridge work with my existing Notion setup?</h3>
             <p>
-              We seamlessly integrate with your Notion workspace, analyzing and optimizing your existing databases and pages. Our AI processing
-              ensures your content is structured for maximum efficiency and AI compatibility.
+              We seamlessly integrate with your Notion workspace, analyzing and optimizing your existing databases and pages. Our AI processing ensures your
+              content is structured for maximum efficiency and AI compatibility.
             </p>
           </div>
 
           <div class="faq-item">
             <h3>Is the AI processing effective for all types of content?</h3>
             <p>
-              Yes. Our AI system is designed to handle various content types, from text and documents to databases and multimedia. It adapts to
-              your specific use case and organizational needs.
+              Yes. Our AI system is designed to handle various content types, from text and documents to databases and multimedia. It adapts to your specific
+              use case and organizational needs.
             </p>
           </div>
 
           <div class="faq-item">
             <h3>How long does it take to see results?</h3>
             <p>
-              Most users see immediate improvements in their workflow organization. Full AI optimization benefits typically become apparent
-              within the first week of implementation.
+              Most users see immediate improvements in their workflow organization. Full AI optimization benefits typically become apparent within the first
+              week of implementation.
             </p>
           </div>
 
           <div class="faq-item">
             <h3>What happens to my existing Notion structure?</h3>
             <p>
-              Your existing Notion structure remains intact. We enhance and optimize it without disrupting your current setup, ensuring a smooth
-              transition to AI-ready data.
+              Your existing Notion structure remains intact. We enhance and optimize it without disrupting your current setup, ensuring a smooth transition to
+              AI-ready data.
             </p>
           </div>
 
           <div class="faq-item">
             <h3>Is my data secure during processing?</h3>
             <p>
-              Absolutely. We maintain the highest security standards with end-to-end encryption. Your data never leaves your control, and we
-              comply with all major data protection regulations.
+              Absolutely. We maintain the highest security standards with end-to-end encryption. Your data never leaves your control, and we comply with all
+              major data protection regulations.
             </p>
           </div>
 
           <div class="faq-item">
             <h3>Do I need technical expertise to use NotionAI Bridge?</h3>
             <p>
-              No. Our platform is designed to be user-friendly while delivering powerful results. We provide full documentation and support for
-              users of all technical levels.
+              No. Our platform is designed to be user-friendly while delivering powerful results. We provide full documentation and support for users of all
+              technical levels.
             </p>
           </div>
 
           <div class="faq-item">
             <h3>Can I access my optimized content from anywhere?</h3>
             <p>
-              Yes, your AI-optimized Notion workspace remains accessible from any device, maintaining the same flexibility you're used to with
-              Notion while adding powerful AI capabilities.
+              Yes, your AI-optimized Notion workspace remains accessible from any device, maintaining the same flexibility you're used to with Notion while
+              adding powerful AI capabilities.
             </p>
           </div>
         </div>
