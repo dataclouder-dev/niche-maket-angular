@@ -102,7 +102,7 @@ export class TaskListComponent extends PaginationBase implements OnInit {
 
     const agentCard = await this.agentCardService.findConversationCardByID(task.agentCard.id);
     console.log('agentCard', agentCard);
-    this.promptMessages = this.promptBuilderService.buildPrompt(agentCard);
+    this.promptMessages = this.promptBuilderService.buildConversationMessages(agentCard);
     this.showTaksDetails = true;
     this.cdr.detectChanges();
   }

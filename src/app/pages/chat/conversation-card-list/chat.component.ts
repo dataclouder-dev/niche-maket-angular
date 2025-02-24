@@ -10,25 +10,23 @@ import {
   ChatRole,
   ConversationCardListsComponent,
   AudioSpeed,
-  IAgentCard,
-  AgentCardsAbstractService,
   CONVERSATION_AI_TOKEN,
+  AgentCardsAbstractService,
+  IAgentCard,
 } from '@dataclouder/conversation-system';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
-import { MenuItem } from 'primeng/api';
-import { NotionService } from '../../tasks/services/notion.service';
-import { ToastAlertService } from 'src/app/services/toast.service';
 import { TOAST_ALERTS_TOKEN, ToastAlertsAbstractService } from '@dataclouder/core-components';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-chat',
-  templateUrl: './agent.component.html',
-  styleUrls: ['./agent.component.scss'],
+  templateUrl: './chat.component.html',
+  styleUrls: ['./chat.component.scss'],
   standalone: true,
   imports: [CommonModule, FormsModule, IonContent, ConversationCardListsComponent],
 })
-export class ChatComponentPage {
-  public conversationUserSettings: ChatUserSettings = {
+export class ChatComponentPage implements OnInit {
+  public chatUserSettings: ChatUserSettings = {
     realTime: false,
     repeatRecording: false,
     fixGrammar: false,
@@ -41,7 +39,7 @@ export class ChatComponentPage {
     speedRate: 1,
   };
 
-  public ConversationPromptSettings: IConversationSettings = {
+  public IConversationSettings: IConversationSettings = {
     messages: [
       { role: ChatRole.System, content: 'you are a helpful assistant talking about fruits, vegetables and similar' },
       {
@@ -58,12 +56,32 @@ export class ChatComponentPage {
     private router: Router,
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef,
-    private notionService: NotionService,
-    private toastAlert: ToastAlertService,
     @Inject(TOAST_ALERTS_TOKEN) private toastService: ToastAlertsAbstractService,
     @Inject(CONVERSATION_AI_TOKEN) private agentCardService: AgentCardsAbstractService
   ) {
     addIcons({ send, sendOutline, sendSharp });
+  }
+
+  ngOnInit() {
+    // Initialize with some dummy messages
+  }
+
+  public goToDetails(idCard: any) {
+    console.log('goToDetails', idCard);
+    const navigationExtras: NavigationExtras = {
+      state: {
+        conversation: idCard,
+      },
+    };
+    this.router.navigate(['/page/stack/conversation-details', idCard], navigationExtras);
+  }
+
+  public goToEdit(idCard: any) {
+    if (idCard) {
+      this.router.navigate(['/page/stack/conversation-form', idCard]);
+    } else {
+      this.router.navigate(['/page/stack/conversation-form']);
+    }
   }
 
   public getCustomButtons(card: IAgentCard): MenuItem[] {
@@ -113,48 +131,6 @@ export class ChatComponentPage {
       case 'edit':
         this.router.navigate(['../stack/conversation-form', itemId], { relativeTo: this.route });
         break;
-    }
-  }
-
-  public goToDetails(idCard: any) {
-    console.log('goToDetails', idCard);
-    const navigationExtras: NavigationExtras = {
-      state: {
-        conversation: idCard,
-      },
-    };
-    this.router.navigate(['/page/stack/conversation-details', idCard], navigationExtras);
-  }
-
-  public goToEdit(idCard: any) {
-    if (idCard) {
-      this.router.navigate(['/page/stack/conversation-form', idCard]);
-    } else {
-      this.router.navigate(['/page/stack/conversation-form']);
-    }
-  }
-
-  public handleMenuAction(event: any, action: string, card: IAgentCard) {
-    // const card = data.card; // The card data will be passed from the template
-    switch (action) {
-      case 'createNotionPage':
-        console.log('Creating Notion page:', card);
-        this.createNotionPage(card);
-        break;
-    }
-  }
-
-  public async createNotionPage(card: IAgentCard) {
-    this.toastAlert.info({ title: 'Creando página Notion para tu agente', subtitle: 'Por favor, espere...' });
-
-    console.log('Creating Notion page:', card);
-    const response = await this.notionService.createNotionPage(card);
-    console.log('Response:', response.page);
-    if (response.success) {
-      window.open(response.page.url, '_blank');
-      this.toastAlert.success({ title: 'Página Notion creada correctamente', subtitle: 'Puedes verla en tu Notion' });
-    } else {
-      this.toastAlert.error({ title: 'Error al crear la página Notion', subtitle: response.error });
     }
   }
 }
