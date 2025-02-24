@@ -63,7 +63,6 @@ export class ChatComponentPage {
     private notionService: NotionService,
     private toastAlert: ToastAlertService,
     @Inject(TOAST_ALERTS_TOKEN) private toastService: ToastAlertsAbstractService,
-
     @Inject(CONVERSATION_AI_TOKEN) private agentCardService: AgentCardsAbstractService
   ) {
     addIcons({ send, sendOutline, sendSharp });

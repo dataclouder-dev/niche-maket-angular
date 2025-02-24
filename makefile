@@ -49,11 +49,11 @@ create-firebase-app:
 	node scripts/update-firebase-config.js
 	@rm temp_config.txt
 
-deploy:
+deploy-dev:
 	npm run build
 	firebase deploy --project $(PROJECT_ID) --only hosting:$(PROJECT_ID)
 
-deploy-release:
+deploy:
 	npm run prebuild
 	npm run build:prod
 	firebase deploy --project $(PROJECT_ID) --only hosting:$(PROJECT_ID)

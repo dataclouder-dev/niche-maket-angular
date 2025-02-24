@@ -6,13 +6,12 @@ import {
   ConversationPromptSettings,
   ConversationUserSettings,
   IAgentCard,
-  ModelName,
   TranscriptionsWhisper,
 } from '@dataclouder/conversation-system';
 import { HttpService } from './http.service';
 import { UserService } from '../dc-user-module/user.service';
 import { Endpoints } from '../core/enums';
-import { FiltersConfig } from '@dataclouder/core-components';
+import { FiltersConfig, IFilterQueryResponse } from '@dataclouder/core-components';
 
 export type AudioGenerated = { blobUrl: string; transcription: any };
 export type TTSRequest = { text: string; voice: string; generateTranscription: boolean; speedRate: number; speed?: string; ssml?: string };
@@ -27,12 +26,17 @@ export class AgentCardService implements AgentCardsAbstractService {
     return await this.httpService.postDataToService(`${Endpoints.ConversationCard.ConversationQuery}`, filters);
   }
 
+  async findFilteredAgentCards(filters: FiltersConfig): Promise<any> {
+    return await this.httpService.postDataToService(`${Endpoints.ConversationCard.ConversationQuery}`, filters);
+  }
+
   public async getAudioTranscriptions(audioBlob: Blob, metadata: any = null): Promise<TranscriptionsWhisper> {
     alert('revisar que ya funcionan  las transcriptions');
     return await this.httpService.uploadAudioFile(`${Endpoints.ConversationCard.Whisper}`, audioBlob, metadata, 'python');
   }
 
   public async findAgentCards(paginator: FiltersConfig) {
+    debugger;
     const response = await this.httpService.postDataToService(`${Endpoints.ConversationCard.ConversationQuery}`, paginator);
     return response;
   }

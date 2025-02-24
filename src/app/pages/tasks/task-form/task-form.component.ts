@@ -24,7 +24,7 @@ import {
   IAIModel,
 } from '../models/tasks-models';
 import { TasksService } from '../services/tasks.service';
-import { AgentCardService } from 'src/app/services/conversation-cards-ai-service';
+import { AgentCardService } from 'src/app/services/agent-cards.service';
 import { NotionService } from '../services/notion.service';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ToastAlertService } from 'src/app/services/toast.service';
@@ -148,6 +148,7 @@ export class TaskFormComponent implements OnInit {
   }
 
   private async getAgentSources() {
+    debugger;
     const sources = await this.sourceService.getFilteredSources({ returnProps: { id: 1, name: 1 } });
     this.sourcesOptions = sources.rows;
     console.log('Sources options:', sources);
