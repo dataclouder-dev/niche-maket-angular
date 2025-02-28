@@ -41,13 +41,7 @@
           <ion-title>{{ projectName }}</ion-title>
 
           <ion-buttons slot="end">
-            <p-togglebutton
-              [(ngModel)]="isDarkMode"
-              onLabel=""
-              offLabel=""
-              styleClass="w-36"
-              ariaLabel="Do you confirm"
-              (onChange)="toggleDarkMode()">
+            <p-togglebutton [(ngModel)]="isDarkMode" onLabel="" offLabel="" styleClass="w-36" ariaLabel="Do you confirm" (onChange)="toggleDarkMode()">
               <ng-template pTemplate="onicon" let-checked="checked">
                 <ion-icon [name]="checked ? 'sunny' : 'moon'"></ion-icon>
               </ng-template>
@@ -89,6 +83,11 @@
         <ion-tab-button tab="sources" (click)="navigateTo('page/sources')">
           <ion-icon name="document-attach-outline"></ion-icon>
           Fuentes
+        </ion-tab-button>
+
+        <ion-tab-button tab="sources" (click)="navigateTo('page/video-analizer')">
+          <ion-icon name="videocam-outline"></ion-icon>
+          Videos
         </ion-tab-button>
       </ion-tab-bar>
     </div>

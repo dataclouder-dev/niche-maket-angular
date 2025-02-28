@@ -37,6 +37,9 @@ export const Endpoints = {
   Admin: {
     Claims: 'api/admin/claims', // :email
   },
+  Tools: {
+    DownloadYoutubeSong: 'api/tools/download-youtube-song',
+  },
   ConversationCard: {
     TranslateConversation: 'api/conversation_card/translate',
     Conversation: 'api/conversation-ai-cards/conversation',

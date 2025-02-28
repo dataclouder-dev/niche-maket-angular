@@ -192,6 +192,32 @@ export const routes: Routes = [
           },
         ],
       },
+      {
+        path: 'video-analizer',
+        loadComponent: () => import('./pages/video-analizer/video-router').then(m => m.VideoRouterComponent),
+        children: [
+          {
+            path: '',
+            loadComponent: () => import('./pages/video-analizer/video-analizer').then(m => m.VideoAnalizerComponent),
+          },
+          {
+            path: 'tiktoks',
+            loadComponent: () => import('./pages/video-analizer/tiktoks/tiktok-list').then(m => m.TiktokListComponent),
+          },
+          {
+            path: 'tiktoks/:id',
+            loadComponent: () => import('./pages/video-analizer/tiktoks-user/tiktoks-user').then(m => m.TiktoksUserComponent),
+          },
+          {
+            path: 'tiktoks/:user/analysis/:id',
+            loadComponent: () => import('./pages/video-analizer/tiktok-analysis/tiktok-analysis').then(m => m.TiktokAnalysisComponent),
+          },
+        ],
+      },
+      {
+        path: 'tools',
+        loadComponent: () => import('./pages/tools/tools').then(m => m.ToolsComponent),
+      },
 
       {
         path: 'test',

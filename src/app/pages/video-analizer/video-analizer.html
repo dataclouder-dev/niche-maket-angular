@@ -1,0 +1,33 @@
+<h4>Video Analizer</h4>
+
+<button (click)="navigateTo('tiktoks')" pButton>Ir a lista de tiktoks</button>
+
+<p-card header="Analizar video de Tiktok">
+  <label for="name" class="block">URL de tiktok</label>
+  <br />
+  <div>
+    <input style="width: 100%" pInputText id="name" type="text" [formControl]="url" placeholder="Enter source name" />
+  </div>
+
+  <br />
+  <p-button label="Analyze" (onClick)="analyzeVideo()" />
+</p-card>
+
+<br />
+
+<p-card header="Extraer información de videos,">
+  <div class="flex flex-column gap-2">
+    <label for="url">URL</label>
+    <textarea
+      style="width: 100%; max-height: 500px; overflow-y: auto"
+      id="content"
+      rows="3"
+      pInputTextarea
+      [formControl]="urls"
+      placeholder="Enter source content">
+    </textarea>
+  </div>
+
+  <br />
+  <p-button label="Analyze" (onClick)="extractInfo()" />
+</p-card>

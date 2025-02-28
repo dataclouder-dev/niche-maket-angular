@@ -76,6 +76,7 @@ import {
   documentText,
   documentAttachOutline,
   documentAttach,
+  videocamOutline,
 } from 'ionicons/icons';
 import { environment } from 'src/environments/environment';
 import { FirebaseAuthService } from '@dataclouder/app-auth';
@@ -130,6 +131,7 @@ export class IonicLayoutComponent implements OnInit {
     { title: 'Explore', url: '/page/explore', icon: 'eye' },
     { title: 'Conversation', url: '/page/chat', icon: 'chatbubble-ellipses' },
     { title: 'Generics', url: '/page/generics', icon: 'code-working' },
+    { title: 'Tools', url: '/page/tools', icon: 'code-working' },
   ];
 
   public adminPages = [
@@ -190,6 +192,7 @@ export class IonicLayoutComponent implements OnInit {
       documentText,
       documentAttachOutline,
       documentAttach,
+      videocamOutline,
     });
     addIcons({ library, playCircle, radio, search });
     addIcons({ ellipsisHorizontal, ellipsisVertical, helpCircle, personCircle, search });
