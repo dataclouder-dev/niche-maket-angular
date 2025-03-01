@@ -18,10 +18,10 @@
       <td>{{ product.statistics_share_count }}</td>
       <td>{{ product.statistics_collect_count }}</td>
       <td>
-        <a href="{{ product.video_url }}" (click)="openTiktok(product)">Ver video</a>
+        <p-button (click)="openTiktok(product)" label="Ver video" variant="outlined" />
       </td>
       <td>
-        <a (click)="openAnalysis(product)">Ver Resultados</a>
+        <p-button (click)="openAnalysis(product)" label="Ver Resultados" variant="outlined" />
       </td>
     </tr>
   </ng-template>

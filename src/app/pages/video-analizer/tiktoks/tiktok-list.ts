@@ -24,9 +24,13 @@ export class TiktokListComponent implements OnInit {
   public availibleUsers: any[] = [];
 
   async ngOnInit(): Promise<void> {
-    this.availibleUsers = await this.tiktokService.getTiktoksAvailibleUsers();
-    console.log(this.availibleUsers);
-    this.cdr.detectChanges();
+    try {
+      this.availibleUsers = await this.tiktokService.getTiktoksAvailibleUsers();
+      console.log(this.availibleUsers);
+      this.cdr.detectChanges();
+    } catch (error) {
+      this.toastAlerts.error({ title: 'Error', subtitle: 'Error al obtener los tiktoks disponibles' });
+    }
   }
 
   public navigateTo(id: string) {

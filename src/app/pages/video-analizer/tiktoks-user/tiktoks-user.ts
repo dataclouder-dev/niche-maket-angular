@@ -53,7 +53,7 @@ export class TiktoksUserComponent implements OnInit {
   }
 
   public openTiktok(tiktok: any) {
-    const titkokUrl = `www.tiktok.com/@${this.user}/video/${tiktok.aweme_id}`;
+    const titkokUrl = `https://www.tiktok.com/@${this.user}/video/${tiktok.aweme_id}`;
     window.open(titkokUrl, '_blank');
   }
 

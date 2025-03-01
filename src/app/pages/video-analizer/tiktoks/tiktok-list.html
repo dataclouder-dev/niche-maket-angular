@@ -2,8 +2,10 @@
 
 <p>Lista de tiktoks extraidos y guardados en la base de datos</p>
 
-@for (user of availibleUsers; track user.username) {
+@if (availibleUsers.length === 0) {
+<p>No hay tiktoks disponibles, se deben cargar tiktoks en la base de datos</p>
+} @else { @for (user of availibleUsers; track user.username) {
 <div>
   <p-button (click)="navigateTo(user._id)" icon="pi pi-search" [label]="user._id " [link]="true" [badge]="user.count" />
 </div>
-}
+} }
