@@ -34,6 +34,7 @@ export class TiktokAnalysisComponent {
   ];
 
   public generateAnalysis() {
+    this.tiktokService.getTiktoksAvailibleUsers
     // this.router.navigate([`../`], { relativeTo: this.route });
   }
 }

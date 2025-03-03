@@ -66,4 +66,8 @@ export class VideoAnalizerComponent implements OnInit {
   public navigateTo(path: string) {
     this.router.navigate([path], { relativeTo: this.route });
   }
+
+  public navigateToGenerator() {
+    this.router.navigate(['../video-generator'], { relativeTo: this.route });
+  }
 }
