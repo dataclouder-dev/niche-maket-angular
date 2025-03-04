@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IGeneric } from '../models/generics.model';
-import { GenericService } from '../generics.service';
+import { IVideoGenerator } from '../models/videoGenerators.model';
+import { VideoGeneratorService } from '../videoGenerators.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CardModule } from 'primeng/card';
 import { DropdownModule } from 'primeng/dropdown';
@@ -19,11 +19,11 @@ import { TOAST_ALERTS_TOKEN, ToastAlertsAbstractService } from '@dataclouder/cor
 @Component({
   selector: 'app-source-form',
   imports: [ReactiveFormsModule, CardModule, TextareaModule, DropdownModule, ButtonModule, SelectModule, InputTextModule, ChipModule, TooltipModule],
-  templateUrl: './generic-form.component.html',
-  styleUrl: './generic-form.component.css',
+  templateUrl: './videoGenerator-form.component.html',
+  styleUrl: './videoGenerator-form.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GenericFormComponent implements OnInit {
+export class VideoGeneratorFormComponent implements OnInit {
   // public imageSettings: CropImageSettings = {
   //   cropImageSettings: {
   //     resizeToWidth: 1024,
@@ -35,7 +35,7 @@ export class GenericFormComponent implements OnInit {
   //   resolutions: [1024, 768],
   // };
 
-  public genericForm = this.fb.group({
+  public videoGeneratorForm = this.fb.group({
     name: ['', Validators.required],
     description: [''],
     type: [''],
@@ -50,7 +50,7 @@ export class GenericFormComponent implements OnInit {
 
   public selectedPeople: any[] = [{ id: '3', name: 'John Doe', description: 'Description with short description', image: 'assets/images/face-3.jpg' }];
 
-  public genericTypes = [
+  public videoGeneratorTypes = [
     { label: 'Type 1', value: 'type1' },
     { label: 'Type 2', value: 'type2' },
     { label: 'Type 3', value: 'type3' },
@@ -64,31 +64,31 @@ export class GenericFormComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private genericService: GenericService,
+    private videoGeneratorService: VideoGeneratorService,
     private fb: FormBuilder,
     private router: Router,
     @Inject(TOAST_ALERTS_TOKEN) private toastService: ToastAlertsAbstractService
   ) {}
 
-  public generic: IGeneric | null = null;
-  public genericId = this.route.snapshot.params['id'];
+  public videoGenerator: IVideoGenerator | null = null;
+  public videoGeneratorId = this.route.snapshot.params['id'];
 
   async ngOnInit(): Promise<void> {
-    if (this.genericId) {
-      this.generic = await this.genericService.getGeneric(this.genericId);
-      if (this.generic) {
-        this.genericForm.patchValue(this.generic);
+    if (this.videoGeneratorId) {
+      this.videoGenerator = await this.videoGeneratorService.getVideoGenerator(this.videoGeneratorId);
+      if (this.videoGenerator) {
+        this.videoGeneratorForm.patchValue(this.videoGenerator);
       }
     }
   }
 
   async save() {
-    if (this.genericForm.valid) {
-      const generic = { ...this.genericForm.value, ...this.generic } as IGeneric;
+    if (this.videoGeneratorForm.valid) {
+      const videoGenerator = { ...this.videoGeneratorForm.value, ...this.videoGenerator } as IVideoGenerator;
 
-      const result = await this.genericService.saveGeneric(generic);
+      const result = await this.videoGeneratorService.saveVideoGenerator(videoGenerator);
 
-      if (!this.genericId) {
+      if (!this.videoGeneratorId) {
         this.router.navigate([result.id], { relativeTo: this.route });
       }
       this.toastService.success({

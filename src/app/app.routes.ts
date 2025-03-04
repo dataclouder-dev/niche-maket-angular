@@ -216,7 +216,25 @@ export const routes: Routes = [
       },
       {
         path: 'video-generator',
-        loadComponent: () => import('./pages/video-generator/video-generator').then(m => m.VideoGeneratorComponent),
+        loadComponent: () => import('./pages/video-generator/videoGenerators.component').then(m => m.VideoGeneratorsComponent),
+        children: [
+          {
+            path: '',
+            loadComponent: () => import('./pages/video-generator/videoGenerator-list/videoGenerator-list.component').then(m => m.VideoGeneratorListComponent),
+          },
+          {
+            path: 'edit',
+            loadComponent: () => import('./pages/video-generator/videoGenerator-form/videoGenerator-form.component').then(m => m.VideoGeneratorFormComponent),
+          },
+          {
+            path: 'edit/:id',
+            loadComponent: () => import('./pages/video-generator/videoGenerator-form/videoGenerator-form.component').then(m => m.VideoGeneratorFormComponent),
+          },
+          {
+            path: 'details/:id',
+            loadComponent: () => import('./pages/video-generator/videoGenerator-form/videoGenerator-form.component').then(m => m.VideoGeneratorFormComponent),
+          },
+        ],
       },
       {
         path: 'tools',

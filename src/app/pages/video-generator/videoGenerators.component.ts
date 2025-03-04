@@ -3,10 +3,10 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-generics',
+  selector: 'app-videoGenerators',
   imports: [RouterModule],
-  templateUrl: './generics.component.html',
-  styleUrl: './generics.component.css',
+  templateUrl: './videoGenerators.component.html',
+  styleUrl: './videoGenerators.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GenericsComponent {}
+export class VideoGeneratorsComponent {}

@@ -3,23 +3,23 @@ import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 
 import { DCFilterBarComponent, PaginationBase, TOAST_ALERTS_TOKEN, ToastAlertsAbstractService } from '@dataclouder/core-components';
-import { GenericService } from '../generics.service';
-import { IGeneric } from '../models/generics.model';
+import { VideoGeneratorService } from '../videoGenerators.service';
+import { IVideoGenerator } from '../models/videoGenerators.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SpeedDialModule } from 'primeng/speeddial';
 import { MenuItem } from 'primeng/api';
 import { DatePipe, SlicePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-generic-list',
+  selector: 'app-videoGenerator-list',
   imports: [CardModule, ButtonModule, DCFilterBarComponent, SpeedDialModule, DatePipe, SlicePipe],
-  templateUrl: './generic-list.component.html',
-  styleUrl: './generic-list.component.css',
+  templateUrl: './videoGenerator-list.component.html',
+  styleUrl: './videoGenerator-list.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 // TODO: extends PaginationBase this handle filter, pagination, and url params ?page=1
-export class GenericListComponent extends PaginationBase implements OnInit {
-  generics: IGeneric[] = [];
+export class VideoGeneratorListComponent extends PaginationBase implements OnInit {
+  videoGenerators: IVideoGenerator[] = [];
 
   getCustomButtons(item: any): MenuItem[] {
     return [
@@ -43,7 +43,7 @@ export class GenericListComponent extends PaginationBase implements OnInit {
 
   constructor(
     @Inject(TOAST_ALERTS_TOKEN) private toastService: ToastAlertsAbstractService,
-    private sourceService: GenericService,
+    private sourceService: VideoGeneratorService,
     router: Router,
     route: ActivatedRoute,
     private cdr: ChangeDetectorRef
@@ -52,8 +52,8 @@ export class GenericListComponent extends PaginationBase implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    const response = await this.sourceService.getFilteredGenerics(this.filterConfig);
-    this.generics = response.rows;
+    const response = await this.sourceService.getFilteredVideoGenerators(this.filterConfig);
+    this.videoGenerators = response.rows;
     this.cdr.detectChanges();
   }
 
@@ -68,8 +68,8 @@ export class GenericListComponent extends PaginationBase implements OnInit {
       case 'delete':
         const areYouSure = confirm('¿Estás seguro de querer eliminar este origen?');
         if (areYouSure) {
-          await this.sourceService.deleteGeneric(item.id);
-          this.generics = this.generics.filter(generic => generic.id !== item.id);
+          await this.sourceService.deleteVideoGenerator(item.id);
+          this.videoGenerators = this.videoGenerators.filter(videoGenerator => videoGenerator.id !== item.id);
           this.toastService.success({
             title: 'Origen eliminado',
             subtitle: 'El origen ha sido eliminado correctamente',

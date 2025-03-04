@@ -3,22 +3,22 @@ export interface AuditDate {
   updatedAt?: string;
 }
 
-export enum GenericType {
+export enum VideoGeneratorype {
   Gen1 = 'gen1',
   Gen2 = 'gen2',
   Gen3 = 'gen3',
 }
 
-export interface IGenericRelation {
+export interface IVideoGeneratorRelation {
   id: string;
   name: string;
   description: string;
 }
 
-export interface IGeneric extends AuditDate {
+export interface IVideoGenerator extends AuditDate {
   id: string;
   name?: string;
   description?: string;
   type?: string;
-  relation?: IGenericRelation;
+  relation?: IVideoGeneratorRelation;
 }

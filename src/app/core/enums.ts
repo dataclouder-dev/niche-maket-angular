@@ -49,6 +49,11 @@ export const Endpoints = {
     Whisper: 'api/conversation/whisper',
   },
 
+  VideoGenerators: {
+    VideoGenerators: 'api/video-generators',
+    VideoGeneratorsFiltered: 'api/video-generators/query',
+  },
+
   Tasks: {
     Task: 'api/agent-tasks', // GET
     List: 'api/agent-tasks', // GET
