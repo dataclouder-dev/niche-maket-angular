@@ -50,8 +50,8 @@ export const Endpoints = {
   },
 
   VideoGenerators: {
-    VideoGenerators: 'api/video-generators',
-    VideoGeneratorsFiltered: 'api/video-generators/query',
+    VideoGenerator: 'api/video-generator',
+    VideoGeneratorsFiltered: 'api/video-generator/query',
   },
 
   Tasks: {

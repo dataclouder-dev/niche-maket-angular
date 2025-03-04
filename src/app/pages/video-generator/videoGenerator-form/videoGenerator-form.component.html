@@ -20,6 +20,10 @@
     </form>
 
     <div>
+      <p-button (click)="addVideo()" label="Add Video" [disabled]="!videoGeneratorForm.valid" icon="pi pi-check" iconPos="right"> </p-button>
+    </div>
+
+    <div>
       <p-button (click)="save()" label="Save VideoGenerator" [disabled]="!videoGeneratorForm.valid" icon="pi pi-check" iconPos="right"> </p-button>
     </div>
   </p-card>

@@ -5,7 +5,6 @@ import { VideoGeneratorype, IVideoGenerator } from './models/videoGenerators.mod
 import { FiltersConfig, IFilterQueryResponse, TOAST_ALERTS_TOKEN } from '@dataclouder/core-components';
 import { ToastAlertService } from 'src/app/services/toast.service';
 
-const server = 'python';
 @Injectable({
   providedIn: 'root',
 })
@@ -14,7 +13,7 @@ export class VideoGeneratorService {
 
   public async getVideoGenerators(): Promise<IVideoGenerator[]> {
     try {
-      const response = await this.httpService.getDataFromService(Endpoints.VideoGenerators.VideoGenerators, server);
+      const response = await this.httpService.getDataFromService(Endpoints.VideoGenerators.VideoGenerator);
       this.toastService.success({ title: 'Se han encontrado videoGenerators', subtitle: 'Mostrando información' });
       return response;
     } catch (error) {
@@ -40,7 +39,7 @@ export class VideoGeneratorService {
   }
 
   public async getFilteredVideoGenerators(filter: FiltersConfig) {
-    return this.httpService.postDataToService<IFilterQueryResponse<IVideoGenerator>>(Endpoints.VideoGenerators.VideoGeneratorsFiltered, filter, server);
+    return this.httpService.postDataToService<IFilterQueryResponse<IVideoGenerator>>(Endpoints.VideoGenerators.VideoGeneratorsFiltered, filter);
   }
 
   public async getVideoGenerator(id: string): Promise<IVideoGenerator> {
@@ -53,7 +52,7 @@ export class VideoGeneratorService {
   }
 
   public async saveVideoGenerator(videoGenerator: IVideoGenerator): Promise<IVideoGenerator> {
-    return this.httpService.postDataToService(Endpoints.VideoGenerators.VideoGenerators, videoGenerator, server);
+    return this.httpService.postDataToService(Endpoints.VideoGenerators.VideoGenerator, videoGenerator);
   }
 
   public async deleteVideoGenerator(id: string) {

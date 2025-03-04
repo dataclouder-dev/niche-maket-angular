@@ -106,4 +106,11 @@ export class VideoGeneratorFormComponent implements OnInit {
     this.selectedPeople = this.selectedPeople.filter(p => p.id !== person.id);
     console.log(this.selectedPeople);
   }
+
+  public addVideo() {
+    const url = prompt('¿Estás seguro de querer agregar un video?');
+    if (url) {
+      console.log('');
+    }
+  }
 }
