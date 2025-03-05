@@ -92,6 +92,10 @@ export const Endpoints = {
       PageInSpecificFormat: 'api/notion/page-in-specific-format', // Get /{pageId}
     },
   },
+
+  VideoAnalysis: {
+    TiktokData: 'api/video-analizer/tiktok/data',
+  },
 };
 
 export enum AppHttpCode {

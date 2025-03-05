@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ISourceLLM, SourceType, sourceTypeOptions } from '../models/sources.model';
+import { IAgentSource, SourceType, sourceTypeOptions } from '../models/sources.model';
 import { SourceService } from '../sources.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CardModule } from 'primeng/card';
@@ -40,7 +40,7 @@ export class SourceFormComponent implements OnInit {
     private notionService: NotionService
   ) {}
 
-  public source: ISourceLLM | null = null;
+  public source: IAgentSource | null = null;
   public sourceId = this.route.snapshot.params['id'];
 
   async ngOnInit(): Promise<void> {
@@ -54,7 +54,7 @@ export class SourceFormComponent implements OnInit {
 
   async saveSource() {
     if (this.sourceForm.valid) {
-      const source = { ...this.source, ...this.sourceForm.value } as ISourceLLM;
+      const source = { ...this.source, ...this.sourceForm.value } as IAgentSource;
 
       const result = await this.sourceService.saveSource(source);
 

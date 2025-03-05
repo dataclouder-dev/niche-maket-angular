@@ -44,8 +44,10 @@ export class VideoAnalizerComponent implements OnInit {
       return;
     }
     this.toastAlerts.info({ title: 'info', subtitle: 'Analyzing video...' });
-    await this.videoAnalizerService.startAnalyzeVideo(this.url.value as string);
-    this.toastAlerts.success({ title: 'success', subtitle: 'Video analyzed successfully' });
+    const source = await this.videoAnalizerService.startAnalyzeVideo(this.url.value as string);
+    this.toastAlerts.success({ title: 'success', subtitle: 'Comenzó el analisis del video' });
+    debugger;
+    this.router.navigate(['../sources/details', source.id], { relativeTo: this.route });
   }
 
   public async extractInfo() {

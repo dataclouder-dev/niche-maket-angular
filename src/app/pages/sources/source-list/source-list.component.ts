@@ -4,7 +4,7 @@ import { ButtonModule } from 'primeng/button';
 
 import { DCFilterBarComponent, TOAST_ALERTS_TOKEN, ToastAlertsAbstractService } from '@dataclouder/core-components';
 import { SourceService } from '../sources.service';
-import { ISourceLLM } from '../models/sources.model';
+import { IAgentSource } from '../models/sources.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SpeedDialModule } from 'primeng/speeddial';
 import { MenuItem } from 'primeng/api';
@@ -19,7 +19,7 @@ import { ChipModule } from 'primeng/chip';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SourceListComponent implements OnInit {
-  sources: ISourceLLM[] = [];
+  sources: IAgentSource[] = [];
 
   getCustomButtons(item: any): MenuItem[] {
     return [

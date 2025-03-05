@@ -10,7 +10,33 @@ export enum SourceType {
   NOTION = 'notion',
 }
 
-export interface ISourceLLM extends AuditDate {
+export interface CloudStorageData {
+  bucket?: string;
+  url?: string;
+  path?: string; // path where the file is in the storage
+}
+
+export interface IImageSource {
+  image: CloudStorageData;
+  description: string;
+  title: string;
+}
+
+export interface IAudioSource {
+  audio: CloudStorageData;
+  transcription: string;
+  description: string;
+}
+
+export interface IVideoSource {
+  id_platform: string;
+  audio: CloudStorageData;
+  video: CloudStorageData;
+  frames: IImageSource[];
+  transcription: any;
+  description: string;
+}
+export interface IAgentSource extends AuditDate {
   id: string;
   name: string;
   description: string;
@@ -18,7 +44,12 @@ export interface ISourceLLM extends AuditDate {
   sourceUrl: string;
   content: string;
   contentEnhancedAI?: string;
-  img: string;
+  image: IImageSource;
+  video: IVideoSource;
+  assets?: Record<string, CloudStorageData>;
+  status: string;
+  statusDescription: string;
+  relationId?: string;
 }
 
 export const sourceTypeOptions = [

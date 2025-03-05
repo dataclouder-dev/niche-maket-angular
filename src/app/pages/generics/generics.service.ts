@@ -44,7 +44,7 @@ export class GenericService {
   }
 
   public async getGeneric(id: string): Promise<IGeneric> {
-    // return this.httpService.getDataFromService<ISourceLLM>(`${Endpoints.Sources.Source}/${id}`);
+    // return this.httpService.getDataFromService<IAgentSource>(`${Endpoints.Sources.Source}/${id}`);
     return {
       id: '3',
       name: 'Generic 3',

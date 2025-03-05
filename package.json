@@ -1,8 +1,8 @@
 {
-  "name": "notion-neat",
+  "name": "niche-market",
   "config": {
-    "appId": "dev.dataclouder.notion ",
-    "appIdDev": "dev.dataclouder.notion .dev"
+    "appId": "web.app.niche-market.app",
+    "appIdDev": "web.app.niche-market.app.dev"
   },
   "version": "0.0.8",
   "author": "Ionic Framework",

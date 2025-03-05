@@ -2,22 +2,22 @@
 import { definePreset } from '@primeng/themes';
 // import Aura from '@primeng/themes/aura';
 
-import Material from '@primeng/themes/material';
+import Lara from '@primeng/themes/lara';
 
-const MyPreset = definePreset(Material, {
+const MyPreset = definePreset(Lara, {
   semantic: {
     primary: {
-      50: '{green.50}',
-      100: '{green.100}',
-      200: '{green.200}',
-      300: '{green.300}',
-      400: '{green.400}',
-      500: '{green.500}',
-      600: '{green.600}',
-      700: '{green.700}',
-      800: '{green.800}',
-      900: '{green.900}',
-      950: '{green.950}',
+      50: '{amber.100}',
+      100: '{amber.200}',
+      200: '{amber.300}',
+      300: '{amber.400}',
+      400: '{amber.500}',
+      500: '{amber.600}',
+      600: '{amber.700}',
+      700: '{amber.800}',
+      800: '{amber.900}',
+      900: '{amber.950}',
+      950: '{amber.950}',
     },
   },
 });

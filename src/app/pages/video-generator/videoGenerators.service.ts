@@ -43,7 +43,7 @@ export class VideoGeneratorService {
   }
 
   public async getVideoGenerator(id: string): Promise<IVideoGenerator> {
-    // return this.httpService.getDataFromService<ISourceLLM>(`${Endpoints.Sources.Source}/${id}`);
+    // return this.httpService.getDataFromService<IAgentSource>(`${Endpoints.Sources.Source}/${id}`);
     return {
       id: '3',
       name: 'VideoGenerator 3',
