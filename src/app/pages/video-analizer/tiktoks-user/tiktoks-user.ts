@@ -49,7 +49,6 @@ export class TiktoksUserComponent implements OnInit {
     this.products = await this.tiktokService.getTiktoksByUser(this.user);
     console.log(this.products);
     this.cdr.detectChanges();
-    debugger;
   }
 
   public openTiktok(tiktok: any) {

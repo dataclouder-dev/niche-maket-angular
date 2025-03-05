@@ -92,7 +92,6 @@ export class ChatComponentPage {
   }
 
   public async doAction(action: string, item: any) {
-    debugger;
     const itemId = item._id || item.id;
     switch (action) {
       case 'view':

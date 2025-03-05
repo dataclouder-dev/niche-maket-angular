@@ -148,7 +148,6 @@ export class TaskFormComponent implements OnInit {
   }
 
   private async getAgentSources() {
-    debugger;
     const sources = await this.sourceService.getFilteredSources({ returnProps: { id: 1, name: 1 } });
     this.sourcesOptions = sources.rows;
     console.log('Sources options:', sources);

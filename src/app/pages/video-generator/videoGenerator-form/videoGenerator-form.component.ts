@@ -77,6 +77,7 @@ export class VideoGeneratorFormComponent implements OnInit {
     if (this.videoGeneratorId) {
       this.videoGenerator = await this.videoGeneratorService.getVideoGenerator(this.videoGeneratorId);
       if (this.videoGenerator) {
+        console.log(this.videoGenerator);
         this.videoGeneratorForm.patchValue(this.videoGenerator);
       }
     }

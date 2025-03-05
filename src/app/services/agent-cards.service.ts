@@ -44,7 +44,6 @@ export class AgentCardService implements AgentCardsAbstractService {
   }
 
   public async findAgentCards(paginator: FiltersConfig) {
-    debugger;
     const response = await this.httpService.postDataToService(`${Endpoints.ConversationCard.ConversationQuery}`, paginator);
     return response;
   }

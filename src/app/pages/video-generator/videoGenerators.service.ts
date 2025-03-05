@@ -43,12 +43,7 @@ export class VideoGeneratorService {
   }
 
   public async getVideoGenerator(id: string): Promise<IVideoGenerator> {
-    // return this.httpService.getDataFromService<IAgentSource>(`${Endpoints.Sources.Source}/${id}`);
-    return {
-      id: '3',
-      name: 'VideoGenerator 3',
-      description: 'Description 3',
-    };
+    return this.httpService.getDataFromService<IVideoGenerator>(`${Endpoints.VideoGenerators.VideoGenerator}/${id}`);
   }
 
   public async saveVideoGenerator(videoGenerator: IVideoGenerator): Promise<IVideoGenerator> {
